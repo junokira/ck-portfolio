@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 
 // Tailwind entry (already set up below)
-import "./Index.css";
+import "./index.css";
 
 // Optional: if you want extra styles in app.css, keep this import
 import "./App.css";
