@@ -3,10 +3,10 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 
 // Tailwind entry (already set up below)
-import "./index.css";
+import "./Index.css";
 
 // Optional: if you want extra styles in app.css, keep this import
-import "./app.css";
+import "./App.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
