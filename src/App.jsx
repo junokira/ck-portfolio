@@ -212,9 +212,9 @@ const experience = [
     ),
   },
   {
-    id: "pixelperfect-design",
+    id: "abstract-design",
     position: "Senior Graphic Designer",
-    company: "PixelPerfect Studios",
+    company: "Abstract Studios",
     duration: "January 2018 - January 2021",
     description: "Led a team of designers in creating visually stunning and effective marketing materials. Specialized in brand identity, UI/UX, and print design.",
     technologies: ["Adobe Creative Suite", "Figma", "Sketch", "Print Design"],
@@ -257,7 +257,7 @@ const skillsData = [
  * ExpandablePhotosWidget Component
  * Manages the display of a collection of photos with an expand/collapse feature.
  */
-const ExpandablePhotosWidget = ({ isExpanded, setIsExpanded, setSelectedImage, collapsedHeight }) => {
+const ExpandablePhotosWidget = ({ isExpanded, setIsExpanded, setSelectedImage, collapsedHeight, isMobile }) => {
   const allPhotos = [
     "https://i.ibb.co/CK0tHVsB/awaken-eye-red.png",
     "https://i.ibb.co/p7297MR/vo0id-logo.png",
@@ -285,7 +285,9 @@ const ExpandablePhotosWidget = ({ isExpanded, setIsExpanded, setSelectedImage, c
   return (
     <motion.div
       className="glass-container p-4 flex flex-col"
-      whileHover={{ scale: 1.05 }}
+      whileHover={!isMobile ? { scale: 1.05 } : {}}
+      whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+      viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.2 }}
     >
       <div className="flex justify-between items-center cursor-pointer mb-2" onClick={() => setIsExpanded(!isExpanded)}>
@@ -342,7 +344,7 @@ const ExpandablePhotosWidget = ({ isExpanded, setIsExpanded, setSelectedImage, c
  * AIDevWidget Component
  * Manages the display of the AI Dev content with an expand/collapse feature for its description.
  */
-const AIDevWidget = ({ isExpanded, setIsExpanded, collapsedHeight }) => {
+const AIDevWidget = ({ isExpanded, setIsExpanded, collapsedHeight, isMobile }) => {
   const showAIDevDescription = isExpanded;
   const canvasRef = useRef(null);
   
@@ -404,7 +406,9 @@ const AIDevWidget = ({ isExpanded, setIsExpanded, collapsedHeight }) => {
   return (
     <motion.div
       className="glass-container p-4 flex flex-col"
-      whileHover={{ scale: 1.05 }}
+      whileHover={!isMobile ? { scale: 1.05 } : {}}
+      whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+      viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.2 }}
     >
       <div className="flex justify-between items-center cursor-pointer mb-2" onClick={() => setIsExpanded(!isExpanded)}>
@@ -446,7 +450,7 @@ const AIDevWidget = ({ isExpanded, setIsExpanded, collapsedHeight }) => {
  * TopNav Component
  * The fixed navigation bar at the top.
  */
-const TopNav = ({ handleNavLinkClick }) => {
+const TopNav = ({ handleNavLinkClick, navRef, isMobile }) => {
   const [time, setTime] = useState(new Date());
 
   useEffect(() => {
@@ -472,27 +476,29 @@ const TopNav = ({ handleNavLinkClick }) => {
   };
 
   return (
-    <div className="fixed top-5 left-0 right-0 z-40">
-      <div className="flex justify-center p-2">
-        <div className="glass-container flex gap-6 px-4 py-2 items-center">
+    <div ref={navRef} className="fixed top-0 left-0 right-0 z-40 p-4 flex justify-center">
+      <div className="glass-container flex flex-row gap-6 px-4 py-2 items-center w-full md:w-auto">
+        <div className="flex-1 flex gap-4 md:gap-6 items-center">
           {navItems.map((item) => (
             <div
               key={item.id}
               onClick={() => handleNavLinkClick(item.id)}
-              className="flex items-center gap-1 text-white/70 hover:text-white transition-colors duration-200 cursor-pointer text-sm"
+              className="flex items-center gap-1 text-white/70 hover:text-white transition-colors duration-200 cursor-pointer"
             >
               <div className="w-4 h-4 flex items-center justify-center">
                 {item.icon}
               </div>
-              <span className="font-semibold shiny-text hidden md:inline text-xs">
-                {item.label}
-              </span>
+              {!isMobile && (
+                <span className="font-semibold shiny-text text-xs">
+                  {item.label}
+                </span>
+              )}
             </div>
           ))}
-          <div className="h-4 w-px bg-white/20 mx-2 hidden md:block"></div>
-          <div className="text-white text-xs font-semibold shiny-text hidden md:block">
-            {formatDateTime(time)}
-          </div>
+        </div>
+        <div className="h-4 w-px bg-white/20 mx-2 hidden md:block"></div>
+        <div className="text-white font-semibold shiny-text text-xs whitespace-nowrap">
+          {formatDateTime(time)}
         </div>
       </div>
     </div>
@@ -541,13 +547,15 @@ const LargeImageViewer = ({ imageUrl, onClose }) => {
 };
 
 // Reusable Project Card component with the new color palette circles
-const ProjectCard = ({ project }) => {
+const ProjectCard = ({ project, isMobile }) => {
   const imageClasses = `h-full w-auto object-contain ${project.logoSizeClass}`;
   
   return (
     <motion.div
       className="glass-container p-4 md:p-6 flex flex-col h-full min-h-[350px]"
-      whileHover={{ scale: 1.05 }}
+      whileHover={!isMobile ? { scale: 1.05 } : {}}
+      whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+      viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5 }}
     >
       <div
@@ -614,10 +622,12 @@ const ProjectCard = ({ project }) => {
 };
 
 // A new Experience Card component
-const ExperienceCard = ({ item }) => (
+const ExperienceCard = ({ item, isMobile }) => (
   <motion.div
     className="glass-container p-6 flex flex-col h-full"
-    whileHover={{ scale: 1.05 }}
+    whileHover={!isMobile ? { scale: 1.05 } : {}}
+    whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+    viewport={{ once: true, amount: 0.2 }}
     transition={{ duration: 0.2 }}
   >
     <div className="flex items-center justify-between mb-4">
@@ -649,7 +659,7 @@ const ExperienceCard = ({ item }) => (
 );
 
 // A new Dynamic Quote Widget that uses a generative AI model
-const DynamicQuoteWidget = () => {
+const DynamicQuoteWidget = ({ isMobile }) => {
   const [quote, setQuote] = useState({ text: "Loading quote...", author: "" });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -711,7 +721,13 @@ const DynamicQuoteWidget = () => {
   }, []);
 
   return (
-    <div className="glass-container p-6 rounded-3xl flex flex-col items-center text-center h-full">
+    <motion.div 
+      className="glass-container p-6 rounded-3xl flex flex-col items-center text-center h-full"
+      whileHover={!isMobile ? { scale: 1.05 } : {}}
+      whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.2 }}
+    >
       <h2 className="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white shiny-text">Visionary Quote</h2>
       <div className="text-white text-lg italic mb-4 min-h-[4rem] flex items-center justify-center flex-grow">
         {isLoading ? (
@@ -735,15 +751,17 @@ const DynamicQuoteWidget = () => {
       >
         {isLoading ? 'Generating...' : 'New Quote'}
       </button>
-    </div>
+    </motion.div>
   );
 };
 
 // Skill Card Component
-const SkillCard = ({ skill }) => (
+const SkillCard = ({ skill, isMobile }) => (
   <motion.div
     className="glass-container p-4 rounded-xl flex items-center space-x-4 h-full"
-    whileHover={{ scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" }}
+    whileHover={!isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+    whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+    viewport={{ once: true, amount: 0.2 }}
     transition={{ duration: 0.2 }}
   >
     <div className="flex-shrink-0 w-12 h-12 flex items-center justify-center">
@@ -757,7 +775,7 @@ const SkillCard = ({ skill }) => (
 );
 
 // New Skills and SEO section component
-const SkillAndSEOSection = () => {
+const SkillAndSEOSection = ({ isMobile }) => {
   return (
     <>
       <section id="seo-services" className="space-y-6">
@@ -767,7 +785,9 @@ const SkillAndSEOSection = () => {
             <motion.div
               key={index}
               className="glass-container p-4 rounded-xl flex flex-col items-center justify-center text-center space-y-2"
-              whileHover={{ scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" }}
+              whileHover={!isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+              whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+              viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.2 }}
             >
               {service.icon}
@@ -781,7 +801,7 @@ const SkillAndSEOSection = () => {
         <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white text-center shiny-text">Skills</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {skillsData.map((skill, index) => (
-            <SkillCard key={index} skill={skill} />
+            <SkillCard key={index} skill={skill} isMobile={isMobile} />
           ))}
         </div>
       </section>
@@ -809,16 +829,19 @@ const App = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [isWidgetsExpanded, setIsWidgetsExpanded] = useState(false);
   const [activeFilter, setActiveFilter] = useState("All");
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   
   const backgroundCanvasRef = useRef(null);
+  const navRef = useRef(null); // Reference to the nav container
   const mousePosition = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
   const shinyTextElementsRef = useRef([]);
 
   const handleNavLinkClick = (id) => {
     const element = document.getElementById(id);
+    const navHeight = navRef.current ? navRef.current.offsetHeight : 0;
     if (element) {
       window.scrollTo({
-        top: element.offsetTop,
+        top: element.offsetTop - navHeight - 16, // Added padding for a better view
         behavior: "smooth",
       });
     }
@@ -835,8 +858,24 @@ const App = () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [selectedImage]);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+      // Resize the canvas
+      if (backgroundCanvasRef.current) {
+        backgroundCanvasRef.current.width = window.innerWidth;
+        backgroundCanvasRef.current.height = window.innerHeight; // Fix: use window.innerHeight
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
+    // Only run this effect for mouse tracking on desktop
+    if (isMobile) return;
+
     const handleMouseMove = (e) => {
       mousePosition.current = { x: e.clientX, y: e.clientY };
       shinyTextElementsRef.current.forEach(el => {
@@ -865,7 +904,7 @@ const App = () => {
       window.removeEventListener('mousemove', handleMouseMove);
       observer.disconnect();
     };
-  }, []);
+  }, [isMobile]);
 
   useEffect(() => {
     const canvas = backgroundCanvasRef.current;
@@ -876,8 +915,6 @@ const App = () => {
     const gridSize = 40;
     const cubeHeight = gridSize * 2;
     const cubeWidth = gridSize * 2;
-    const rows = Math.ceil(window.innerHeight / (cubeHeight * 0.75)) + 1;
-    const cols = Math.ceil(window.innerWidth / cubeWidth) + 1;
 
     const drawCube = (x, y, shade) => {
         const topShade = `hsl(0, 0%, ${Math.min(15 + shade * 60, 100)}%)`;
@@ -918,24 +955,28 @@ const App = () => {
 
     const draw = () => {
       canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-
+      canvas.height = window.innerHeight; // Fix: use window.innerHeight
+      
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = '#0a0a0a';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+      
       const mouseX = mousePosition.current.x;
       const mouseY = mousePosition.current.y;
       
-      const offsetX = (window.innerWidth % (gridSize * 2)) / 2;
-      const offsetY = (window.innerHeight % (gridSize * 1.5)) / 2;
+      const rows = Math.ceil(canvas.height / (gridSize * 1.5)) + 1;
+      const cols = Math.ceil(canvas.width / (gridSize * 2)) + 1;
+
+      const offsetX = (canvas.width % (gridSize * 2)) / 2;
+      const offsetY = (canvas.height % (gridSize * 1.5)) / 2;
 
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
           const x = offsetX + c * (gridSize * 2) + ((r % 2) === 1 ? gridSize : 0) - gridSize;
           const y = offsetY + r * (gridSize * 1.5);
           
-          const distance = Math.hypot(x - mouseX, y - mouseY);
+          const scrollAdjustedMouseY = mouseY + window.scrollY;
+          const distance = Math.hypot(x - mouseX, y - scrollAdjustedMouseY);
           const maxDistance = Math.hypot(window.innerWidth, window.innerHeight);
           const shade = 1 - Math.min(distance / (maxDistance * 0.2), 1);
           
@@ -945,7 +986,8 @@ const App = () => {
       
       animationFrameId = requestAnimationFrame(draw);
     };
-
+    
+    // Initial draw and setup
     draw();
 
     return () => {
@@ -964,20 +1006,20 @@ const App = () => {
   const collapsedWidgetHeight = `${actualGridContentHeightCollapsed + (containerPadding * 2)}px`;
 
   return (
-    <div className="relative min-h-screen bg-zinc-950 text-white overflow-hidden">
+    <div className="relative min-h-screen text-white overflow-x-hidden" style={{ scrollBehavior: 'smooth' }}>
       
-      <canvas ref={backgroundCanvasRef} className="fixed top-0 left-0 w-full h-full z-0"></canvas>
+      <canvas ref={backgroundCanvasRef} className="background-canvas z-0"></canvas>
       
       <div className="absolute inset-0 z-10">
         <div className="liquid-blur-1"></div>
         <div className="liquid-blur-2"></div>
       </div>
       
-      <TopNav handleNavLinkClick={handleNavLinkClick} />
+      <TopNav handleNavLinkClick={handleNavLinkClick} navRef={navRef} isMobile={isMobile} />
       
       <div className="relative z-30 flex flex-col min-h-screen">
         
-        <div className="flex-1 overflow-y-auto px-4 py-12 md:px-12 md:pt-12 pt-24">
+        <div className="flex-1 overflow-y-auto px-4 md:px-12 pt-28 md:pt-24">
           <div className="max-w-4xl mx-auto space-y-12">
             
             <AnimatePresence>
@@ -989,7 +1031,9 @@ const App = () => {
             <header id="home" className="glass-container p-8 text-center flex flex-col items-center">
               <motion.div
                 className="mb-4 w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-2 border-white/50 shadow-lg"
-                whileHover={{ scale: 1.1, rotate: 2 }}
+                whileHover={!isMobile ? { scale: 1.1, rotate: 2 } : {}}
+                whileInView={isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+                viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.3 }}
               >
                 <img
@@ -1012,15 +1056,15 @@ const App = () => {
             <section id="spaces-and-generative-art">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white text-center shiny-text">My Spaces & Generative Art</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-                <AIDevWidget isExpanded={isWidgetsExpanded} setIsExpanded={setIsWidgetsExpanded} collapsedHeight={collapsedWidgetHeight} />
-                <ExpandablePhotosWidget isExpanded={isWidgetsExpanded} setIsExpanded={setIsWidgetsExpanded} setSelectedImage={setSelectedImage} collapsedHeight={collapsedWidgetHeight} />
+                <AIDevWidget isExpanded={isWidgetsExpanded} setIsExpanded={setIsWidgetsExpanded} collapsedHeight={collapsedWidgetHeight} isMobile={isMobile} />
+                <ExpandablePhotosWidget isExpanded={isWidgetsExpanded} setIsExpanded={setIsWidgetsExpanded} setSelectedImage={setSelectedImage} collapsedHeight={collapsedWidgetHeight} isMobile={isMobile} />
               </div>
             </section>
 
             <section id="about" className="glass-container p-8">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white shiny-text">About Me</h2>
               <p className="text-white leading-relaxed shiny-text">
-                Hi, I'm a passionate developer with a knack for building beautiful and functional user interfaces. I love creating engaging web experiences that are both visually appealing and highly performant. My skills include React, Tailwind CSS, and a deep appreciation for modern design principles like the one you see here!
+                I'm a multidisciplinary digital creative blending beautiful design, strategic thinking, and cutting-cutting-edge Al development. I specialize in crafting visual experiences that deliver results.
               </p>
             </section>
             
@@ -1054,7 +1098,7 @@ const App = () => {
                       transition={{ duration: 0.5 }}
                       layout
                     >
-                      <ProjectCard project={project} />
+                      <ProjectCard project={project} isMobile={isMobile} />
                     </motion.div>
                   ))}
                 </AnimatePresence>
@@ -1065,17 +1109,17 @@ const App = () => {
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white text-center shiny-text">Experience</h2>
               <div className="space-y-6">
                 {experience.map((item) => (
-                  <ExperienceCard key={item.id} item={item} />
+                  <ExperienceCard key={item.id} item={item} isMobile={isMobile} />
                 ))}
               </div>
             </section>
 
             <section id="skills">
-              <SkillAndSEOSection />
+              <SkillAndSEOSection isMobile={isMobile} />
             </section>
             
             <section id="quote-widget" className="mt-12">
-              <DynamicQuoteWidget />
+              <DynamicQuoteWidget isMobile={isMobile} />
             </section>
 
             <section id="contact" className="glass-container p-8 text-center mt-12">
@@ -1086,7 +1130,9 @@ const App = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="contact-icon hover:text-white transition-colors duration-300"
-                  whileHover={{ scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" }}
+                  whileHover={!isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+                  whileInView={isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+                  viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.2 }}
                 >
                   <Behance size={40} />
@@ -1096,7 +1142,9 @@ const App = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="contact-icon hover:text-white transition-colors duration-300"
-                  whileHover={{ scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" }}
+                  whileHover={!isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+                  whileInView={isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+                  viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.2 }}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
@@ -1104,7 +1152,9 @@ const App = () => {
                 <motion.a
                   href="mailto:anticalvin@icloud.com"
                   className="contact-icon hover:text-white transition-colors duration-300"
-                  whileHover={{ scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" }}
+                  whileHover={!isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+                  whileInView={isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+                  viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.2 }}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
@@ -1122,6 +1172,7 @@ const App = () => {
           scroll-behavior: smooth;
           overflow-x: hidden;
           font-family: 'Inter', sans-serif;
+          background-color: #0a0a0a;
         }
 
         .glass-container {
@@ -1185,21 +1236,12 @@ const App = () => {
             text-shadow: 0 0 1px rgba(255, 255, 255, 0.2);
         }
 
-        /* Mobile specific styles for nav */
-        @media (max-width: 768px) {
-          .glass-container.flex.gap-6 {
-            gap: 1.5rem;
-          }
-          .glass-container .text-sm {
-            font-size: 0.75rem;
-          }
-          .glass-container .w-4.h-4 {
-            width: 1rem;
-            height: 1rem;
-          }
-          .glass-container .hidden.md:inline {
-            display: none;
-          }
+        .background-canvas {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
         }
       `}</style>
     </div>
