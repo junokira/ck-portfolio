@@ -252,6 +252,20 @@ export const skillsData = [
   { name: "Google Cloud", iconUrl: "https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg", description: "Familiar with cloud services for deployment and data management." },
 ];
 
+// Custom Behance icon with corrected SVG path
+const Behance = ({ size = 24, className }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+  >
+    <path d="M13.67 10.36c.64.44.82 1.03.82 1.76a2.83 2.83 0 0 1-1.3 2.45c-1.37.82-3.4.94-5.32.94H4.5V8.1h3.7c1.9 0 3.8.1 5.3.96zm-5.46 4.3h3.5c1.47 0 2.5-.2 3.12-1.07.64-.87.97-2.3.97-4.14v-.27c0-2.3-.57-3.88-1.72-4.6-1.12-.66-2.9-.84-5.1-.84H4.5v12.9h2.36v-4.52zM21.53 9.4c0-2.58-1-4.7-3.57-4.7s-3.56 2.12-3.56 4.7v.14c0 2.58 1 4.7 3.56 4.7s3.57-2.12 3.57-4.7V9.4zM18.1 12.8c-1.04 0-1.25-1.1-1.25-1.52v-.22c0-.42.2-1.52 1.25-1.52s1.24 1.1 1.24 1.52v.22c.01.42-.2 1.52-1.24 1.52z" />
+  </svg>
+);
+
 // =========================================================
 // All components are now defined in this single file.
 // =========================================================
@@ -436,7 +450,7 @@ const ExpandablePhotosWidget = ({ isExpanded, toggleExpand, collapsedHeight, exp
     "https://i.ibb.co/PGFQkrJM/think.png",
     "https://i.ibb.co/9mgwLzSG/clouds-1.png",
     "https://i.ibb.co/MxTwCzyd/handddd.png",
-    "https://i.ibb.co/nqWwwQd0/kopoai-grey.png",
+    "https://i.ibb.ibb.co/nqWwwQd0/kopoai-grey.png",
     "https://placehold.co/150x150/FFFF00/000000?text=Logo+7",
     "https://placehold.co/150x150/800080/FFFFFF?text=Logo+8",
     "https://placehold.co/150x150/FFA500/000000?text=Logo+9",
@@ -504,20 +518,19 @@ const ExpandablePhotosWidget = ({ isExpanded, toggleExpand, collapsedHeight, exp
 
 /**
  * AIDevWidget Component
- * Manages the display of the AI Dev content in a static state.
+ * Manages the display of the AI Dev content with performance optimization for mobile
  */
 const AIDevWidget = ({ isExpanded, toggleExpand, collapsedHeight, expandedHeight, isMobile }) => {
   const canvasRef = useRef(null);
   
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || isMobile) return; // Disable canvas on mobile
+    if (!canvas) return;
     const ctx = canvas.getContext("2d");
     let frame = 0;
     let animationFrameId;
 
     const draw = () => {
-      // Make the canvas resize dynamically to its container
       const w = canvas.offsetWidth;
       const h = canvas.offsetHeight;
       if (canvas.width !== w || canvas.height !== h) {
@@ -529,7 +542,11 @@ const AIDevWidget = ({ isExpanded, toggleExpand, collapsedHeight, expandedHeight
       const centerX = w / 2;
       const centerY = h / 2;
       const radius = Math.min(w, h) / 2 - 20;
+      
+      // Use the same values for both desktop and mobile as requested
       const numLines = 18;
+      const numDots = 4;
+
       ctx.strokeStyle = '#000000';
       ctx.lineWidth = 1;
       ctx.fillStyle = '#000000';
@@ -543,7 +560,6 @@ const AIDevWidget = ({ isExpanded, toggleExpand, collapsedHeight, expandedHeight
         ctx.lineTo(endX, endY);
         ctx.stroke();
 
-        const numDots = 4;
         for (let j = 1; j <= numDots; j++) {
           const baseRadius = radius * (j / (numDots + 1));
           const wavePhase = frame * 0.015;
@@ -568,7 +584,7 @@ const AIDevWidget = ({ isExpanded, toggleExpand, collapsedHeight, expandedHeight
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [isMobile]);
+  }, []);
 
   return (
     <motion.div
@@ -795,20 +811,6 @@ const SkillAndSEOSection = ({ isMobile }) => {
   );
 };
 
-// Custom Behance icon with corrected SVG path
-const Behance = ({ size = 24, className }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    className={className}
-  >
-    <path d="M13.67 10.36c.64.44.82 1.03.82 1.76a2.83 2.83 0 0 1-1.3 2.45c-1.37.82-3.4.94-5.32.94H4.5V8.1h3.7c1.9 0 3.8.1 5.3.96zm-5.46 4.3h3.5c1.47 0 2.5-.2 3.12-1.07.64-.87.97-2.3.97-4.14v-.27c0-2.3-.57-3.88-1.72-4.6-1.12-.66-2.9-.84-5.1-.84H4.5v12.9h2.36v-4.52zM21.53 9.4c0-2.58-1-4.7-3.57-4.7s-3.56 2.12-3.56 4.7v.14c0 2.58 1 4.7 3.56 4.7s3.57-2.12 3.57-4.7V9.4zM18.1 12.8c-1.04 0-1.25-1.1-1.25-1.52v-.22c0-.42.2-1.52 1.25-1.52s1.24 1.1 1.24 1.52v.22c.01.42-.2 1.52-1.24 1.52z" />
-  </svg>
-);
-
 
 // =========================================================
 // This is the main application file.
@@ -818,12 +820,11 @@ const App = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [activeFilter, setActiveFilter] = useState("All");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  // Renamed and combined the state for widgets
-  const [areWidgetsExpanded, setAreWidgetsExpanded] = useState(false);
+  const [isAiDevExpanded, setIsAiDevExpanded] = useState(false);
+  const [isPhotosExpanded, setIsPhotosExpanded] = useState(false);
   
   const backgroundCanvasRef = useRef(null);
   const navRef = useRef(null);
-  // We'll store the mouse position relative to the viewport
   const mousePosition = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
 
   const handleNavLinkClick = (id) => {
@@ -837,21 +838,21 @@ const App = () => {
     }
   };
   
-  const toggleWidgets = () => {
-    if (!isMobile) {
-      // On desktop, toggle both widgets at the same time
-      setAreWidgetsExpanded(!areWidgetsExpanded);
+  const toggleAiDev = () => {
+    if (isMobile) {
+      setIsAiDevExpanded(!isAiDevExpanded);
+    } else {
+      setIsAiDevExpanded(!isAiDevExpanded);
+      setIsPhotosExpanded(!isPhotosExpanded);
     }
   };
-  
-  // This function will be passed to each widget.
-  // It checks if it's mobile and if so, it will toggle the state individually.
-  // Otherwise, it will call the function to toggle both.
-  const handleWidgetToggle = (isThisWidgetExpanded, setThisWidgetExpanded) => {
+
+  const togglePhotos = () => {
     if (isMobile) {
-      setThisWidgetExpanded(!isThisWidgetExpanded);
+      setIsPhotosExpanded(!isPhotosExpanded);
     } else {
-      setAreWidgetsExpanded(!areWidgetsExpanded);
+      setIsAiDevExpanded(!isAiDevExpanded);
+      setIsPhotosExpanded(!isPhotosExpanded);
     }
   };
   
@@ -902,7 +903,7 @@ const App = () => {
 
   useEffect(() => {
     const canvas = backgroundCanvasRef.current;
-    if (!canvas || isMobile) return; // Disable canvas on mobile
+    if (!canvas) return;
     const ctx = canvas.getContext('2d');
     let animationFrameId;
 
@@ -966,10 +967,17 @@ const App = () => {
           const x = offsetX + c * (gridSize * 2) + ((r % 2) === 1 ? gridSize : 0) - gridSize;
           const y = offsetY + r * (gridSize * 1.5);
           
-          const scrollAdjustedMouseY = mouseY + window.scrollY;
-          const distance = Math.hypot(x - mouseX, y - scrollAdjustedMouseY);
-          const maxDistance = Math.hypot(window.innerWidth, window.innerHeight);
-          const shade = 1 - Math.min(distance / (maxDistance * 0.2), 1);
+          let shade;
+          if (isMobile) {
+            // Fixed shade for mobile, no light effect
+            shade = 0.2;
+          } else {
+            // Dynamic shade for desktop
+            // Corrected: The fixed canvas uses viewport coordinates, so no scroll adjustment is needed.
+            const distance = Math.hypot(x - mouseX, y - mouseY);
+            const maxDistance = Math.hypot(window.innerWidth, window.innerHeight);
+            shade = 1 - Math.min(distance / (maxDistance * 0.2), 1);
+          }
           
           drawCube(x, y, shade);
         }
@@ -1050,15 +1058,15 @@ const App = () => {
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white text-center">My Spaces</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
                 <AIDevWidget 
-                  isExpanded={areWidgetsExpanded}
-                  toggleExpand={() => handleWidgetToggle(areWidgetsExpanded, setAreWidgetsExpanded)}
+                  isExpanded={isAiDevExpanded}
+                  toggleExpand={toggleAiDev}
                   collapsedHeight={collapsedWidgetHeight}
                   expandedHeight={expandedWidgetHeight}
                   isMobile={isMobile}
                 />
                 <ExpandablePhotosWidget 
-                  isExpanded={areWidgetsExpanded}
-                  toggleExpand={() => handleWidgetToggle(areWidgetsExpanded, setAreWidgetsExpanded)}
+                  isExpanded={isPhotosExpanded}
+                  toggleExpand={togglePhotos}
                   collapsedHeight={collapsedWidgetHeight}
                   expandedHeight={expandedWidgetHeight}
                   isMobile={isMobile}
@@ -1247,4 +1255,3 @@ const App = () => {
 };
 
 export default App;
-
