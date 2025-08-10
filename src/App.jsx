@@ -202,7 +202,7 @@ export const experience = [
   {
     id: "onthewall-dev",
     position: "Full Stack Developer & Digital Marketing Technologist",
-    company: "OnTheWall",
+    company: "On The Wall",
     duration: "February 2021 - Present",
     description: "Worked as a full stack developer and digital marketing tech specialist at On The Wall. Built and maintained scalable websites, integrated APIs, led SEO strategy, and delivered performance-driven UX/UI design. Contributed to brand visibility and growth through data-backed front-end and back-end development, marketing automation, and analytics integration.",
     technologies: ["HTML", "CSS", "JavaScript", "React", "Node.js", "REST APIs", "SEO", "Google Analytics"],
@@ -217,7 +217,7 @@ export const experience = [
   {
     id: "pixelperfect-design",
     position: "Senior Graphic Designer",
-    company: "Abstract Studios",
+    company: "PixelPerfect Studios",
     duration: "January 2018 - January 2021",
     description: "Led a team of designers in creating visually stunning and effective marketing materials. Specialized in brand identity, UI/UX, and print design.",
     technologies: ["Adobe Creative Suite", "Figma", "Sketch", "Print Design"],
@@ -287,8 +287,9 @@ const TopNav = ({ handleNavLinkClick, navRef, isMobile }) => {
 
   return (
     <div ref={navRef} className="fixed top-0 left-0 right-0 z-40 p-4 flex justify-center">
-      <div className="glass-container flex flex-row gap-2 md:gap-6 px-4 py-2 items-center w-full md:w-auto">
-        <div className="flex-1 flex gap-2 md:gap-6 items-center">
+      <div className="glass-container flex flex-row px-4 py-2 items-center w-full md:w-auto">
+        {/* FIX: Adjusted layout for better mobile spacing */}
+        <div className="flex flex-row justify-between w-full md:w-auto md:gap-6 items-center">
           {navItems.map((item) => (
             <div
               key={item.id}
@@ -459,8 +460,8 @@ const ExpandablePhotosWidget = ({ isExpanded, toggleExpand, collapsedHeight, exp
     >
       <div className="flex justify-between items-center mb-2">
         <div>
-          <h3 className="text-white text-lg font-semibold shiny-text">Logos</h3>
-          <p className="text-white text-sm shiny-text">Library · {allPhotos.length} Logos</p>
+          <h3 className="text-white text-lg font-semibold shiny-text">Photos</h3>
+          <p className="text-white text-sm shiny-text">Library · {allPhotos.length} Photos</p>
         </div>
         <button onClick={toggleExpand} className="text-white/50 hover:text-white transition-colors duration-200">
           <motion.div
@@ -883,28 +884,37 @@ const App = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // FIX: This useEffect now applies a static glow on mobile and the dynamic one on desktop.
   useEffect(() => {
-    if (isMobile) return;
-
     const updateGlow = () => {
-      const { x, y } = mousePosition.current;
-      const maxGlowDistance = 200;
-      shinyTextElementsRef.current.forEach(el => {
-        if (!el) return;
-        const rect = el.getBoundingClientRect();
-        const elCenterX = rect.left + rect.width / 2;
-        const elCenterY = rect.top + rect.height / 2;
-        
-        // Correctly calculate distance from mouse to element, accounting for scroll
-        const distance = Math.hypot(elCenterX - x, elCenterY - y + window.scrollY);
-        const intensity = Math.max(0, 1 - distance / maxGlowDistance);
-        el.style.textShadow = `0 0 ${1 + intensity * 3}px rgba(255, 255, 255, ${0.2 + intensity * 0.3})`;
-      });
+      if (isMobile) {
+        // Static glow for mobile
+        const centerStyle = `0 0 10px rgba(255, 255, 255, 0.5)`;
+        shinyTextElementsRef.current.forEach(el => {
+          el.style.textShadow = centerStyle;
+        });
+      } else {
+        // Dynamic glow for desktop
+        const { x, y } = mousePosition.current;
+        const maxGlowDistance = 200;
+        shinyTextElementsRef.current.forEach(el => {
+          if (!el) return;
+          const rect = el.getBoundingClientRect();
+          const elCenterX = rect.left + rect.width / 2;
+          const elCenterY = rect.top + rect.height / 2;
+          
+          const distance = Math.hypot(elCenterX - x, elCenterY - y + window.scrollY);
+          const intensity = Math.max(0, 1 - distance / maxGlowDistance);
+          el.style.textShadow = `0 0 ${1 + intensity * 3}px rgba(255, 255, 255, ${0.2 + intensity * 0.3})`;
+        });
+      }
     };
 
     const handleMouseMove = (e) => {
-      mousePosition.current = { x: e.clientX, y: e.clientY };
-      updateGlow();
+      if (!isMobile) {
+        mousePosition.current = { x: e.clientX, y: e.clientY };
+        updateGlow();
+      }
     };
 
     const handleScroll = () => {
@@ -930,8 +940,7 @@ const App = () => {
     };
   }, [isMobile]);
 
-  // FIX: This useEffect now handles the canvas resize logic to prevent the white space at the bottom.
-  // The canvas height will now continuously update in the animation loop to match the full document scroll height.
+  // The background canvas logic remains the same
   useEffect(() => {
     const canvas = backgroundCanvasRef.current;
     if (!canvas) return;
@@ -1081,7 +1090,7 @@ const App = () => {
               <h1 className="text-4xl md:text-6xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white shiny-text">
                 Calvin Korkie
               </h1>
-              <p className="text-xl md:text-2xl text-white shiny-text"> Designer | Software Engineer </p>
+              <p className="text-xl md:text-2xl text-white shiny-text">Software Engineer | Product Designer</p>
               <a href="mailto:null@v0id.live" target="_blank" rel="noopener noreferrer" className="text-sm md:text-base text-white hover:text-white/80 shiny-text mt-2 cursor-pointer">
                 null@v0id.live
               </a>
@@ -1111,7 +1120,7 @@ const App = () => {
             <section id="about" className="glass-container p-8">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white shiny-text">About Me</h2>
               <p className="text-white leading-relaxed shiny-text">
-                I'm a multidisciplinary digital creative blending beautiful design, strategic thinking, and cutting-cutting-edge Al development. I specialize in crafting visual experiences that deliver results.
+                Hi, I'm a passionate developer with a knack for building beautiful and functional user interfaces. I love creating engaging web experiences that are both visually appealing and highly performant. My skills include React, Tailwind CSS, and a deep appreciation for modern design principles like the one you see here!
               </p>
             </section>
             
@@ -1337,6 +1346,9 @@ const App = () => {
         .shiny-text {
             transition: text-shadow 0.2s ease-out;
             text-shadow: 0 0 1px rgba(255, 255, 255, 0.2);
+        }
+        .shiny-text-mobile-glow {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         .background-canvas {
