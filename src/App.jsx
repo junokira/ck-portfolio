@@ -287,9 +287,8 @@ const TopNav = ({ handleNavLinkClick, navRef, isMobile }) => {
 
   return (
     <div ref={navRef} className="fixed top-0 left-0 right-0 z-40 p-4 flex justify-center">
-      <div className="glass-container flex flex-row px-4 py-2 items-center w-full md:w-auto">
-        {/* FIX: Adjusted layout for better mobile spacing */}
-        <div className="flex flex-row justify-between w-full md:w-auto md:gap-6 items-center">
+      <div className="glass-container flex flex-row gap-2 md:gap-6 px-4 py-2 items-center w-full md:w-auto">
+        <div className="flex-1 flex gap-2 md:gap-6 items-center">
           {navItems.map((item) => (
             <div
               key={item.id}
@@ -300,7 +299,7 @@ const TopNav = ({ handleNavLinkClick, navRef, isMobile }) => {
                 {item.icon}
               </div>
               {!isMobile && (
-                <span className="font-semibold shiny-text text-xs">
+                <span className="font-semibold text-xs">
                   {item.label}
                 </span>
               )}
@@ -308,7 +307,7 @@ const TopNav = ({ handleNavLinkClick, navRef, isMobile }) => {
           ))}
         </div>
         <div className="h-4 w-px bg-white/20 mx-1 md:mx-2"></div>
-        <div className="text-white font-semibold shiny-text text-xs whitespace-nowrap">
+        <div className="text-white font-semibold text-xs whitespace-nowrap">
           {formatDateTime(time)}
         </div>
       </div>
@@ -324,7 +323,6 @@ const ProjectCard = ({ project, isMobile }) => {
     <motion.div
       className="glass-container p-4 md:p-6 flex flex-col h-full min-h-[350px] will-change-transform"
       whileHover={!isMobile ? { scale: 1.05 } : {}}
-      whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5 }}
     >
@@ -336,7 +334,7 @@ const ProjectCard = ({ project, isMobile }) => {
           <img src={project.imageUrl} alt={project.name + " logo"} className={imageClasses} />
         ) : (
           <h3
-            className={`font-bold text-white shiny-text ${project.textSizeClass}`}
+            className={`font-bold text-white ${project.textSizeClass}`}
             style={project.fontFamily ? { fontFamily: project.fontFamily } : {}}
           >
             {project.name}
@@ -344,7 +342,7 @@ const ProjectCard = ({ project, isMobile }) => {
         )}
       </div>
       <div className="flex items-center gap-2 mb-1">
-        <h4 className="text-lg font-semibold text-white shiny-text">{project.name}</h4>
+        <h4 className="text-lg font-semibold text-white">{project.name}</h4>
         <div className="flex gap-1">
           {project.colors.map((color, index) => (
             <div
@@ -355,21 +353,21 @@ const ProjectCard = ({ project, isMobile }) => {
           ))}
         </div>
       </div>
-      <p className="text-sm text-white shiny-text">{project.subtitle}</p>
-      <div className="text-sm text-white mb-4 flex-grow shiny-text">{project.description}</div>
+      <p className="text-sm text-white">{project.subtitle}</p>
+      <div className="text-sm text-white mb-4 flex-grow">{project.description}</div>
       <div className="mt-auto">
-        <h4 className="text-xs font-semibold text-white mb-2 shiny-text">Technologies:</h4>
+        <h4 className="text-xs font-semibold text-white mb-2">Technologies:</h4>
         <div className="flex flex-wrap gap-2 mb-4">
           {project.technologies.map((tech, index) => (
             <span
               key={index}
-              className="px-3 py-1 bg-white/10 text-white text-xs rounded-full shiny-text"
+              className="px-3 py-1 bg-white/10 text-white text-xs rounded-full"
             >
               {tech}
             </span>
           ))}
         </div>
-        <h4 className="text-xs font-semibold text-white mb-2 shiny-text">Links:</h4>
+        <h4 className="text-xs font-semibold text-white mb-2">Links:</h4>
         <div className="flex flex-wrap gap-4">
           {project.links.map((link, index) => (
             <motion.a
@@ -382,7 +380,7 @@ const ProjectCard = ({ project, isMobile }) => {
               transition={{ duration: 0.2 }}
             >
               <Link className="w-4 h-4" />
-              <span className="shiny-text">{link.name}</span>
+              <span>{link.name}</span>
             </motion.a>
           ))}
         </div>
@@ -396,7 +394,6 @@ const ExperienceCard = ({ item, isMobile }) => (
   <motion.div
     className="glass-container p-6 flex flex-col h-full will-change-transform"
     whileHover={!isMobile ? { scale: 1.05 } : {}}
-    whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
     viewport={{ once: true, amount: 0.2 }}
     transition={{ duration: 0.2 }}
   >
@@ -408,18 +405,18 @@ const ExperienceCard = ({ item, isMobile }) => (
           </div>
         </div>
         <div>
-          <h3 className="text-xl font-bold shiny-text">{item.position}</h3>
-          <p className="text-md text-white/80 shiny-text">{item.company}</p>
+          <h3 className="text-xl font-bold">{item.position}</h3>
+          <p className="text-md text-white/80">{item.company}</p>
         </div>
       </div>
-      <span className="text-sm text-white/50 shiny-text">{item.duration}</span>
+      <span className="text-sm text-white/50">{item.duration}</span>
     </div>
-    <p className="text-white shiny-text mb-4 flex-grow">{item.description}</p>
+    <p className="text-white mb-4 flex-grow">{item.description}</p>
     <div className="mt-auto">
-      <h4 className="text-sm font-semibold text-white mb-2 shiny-text">Technologies:</h4>
+      <h4 className="text-sm font-semibold text-white mb-2">Technologies:</h4>
       <div className="flex flex-wrap gap-2">
         {item.technologies.map((tech, index) => (
-          <span key={index} className="px-3 py-1 bg-white/10 text-white text-xs rounded-full shiny-text">
+          <span key={index} className="px-3 py-1 bg-white/10 text-white text-xs rounded-full">
             {tech}
           </span>
         ))}
@@ -454,14 +451,13 @@ const ExpandablePhotosWidget = ({ isExpanded, toggleExpand, collapsedHeight, exp
     <motion.div
       className="glass-container p-4 flex flex-col will-change-transform"
       whileHover={!isMobile ? { scale: 1.05 } : {}}
-      whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.2 }}
     >
       <div className="flex justify-between items-center mb-2">
         <div>
-          <h3 className="text-white text-lg font-semibold shiny-text">Photos</h3>
-          <p className="text-white text-sm shiny-text">Library · {allPhotos.length} Photos</p>
+          <h3 className="text-white text-lg font-semibold">Photos</h3>
+          <p className="text-white text-sm">Library · {allPhotos.length} Photos</p>
         </div>
         <button onClick={toggleExpand} className="text-white/50 hover:text-white transition-colors duration-200">
           <motion.div
@@ -515,7 +511,7 @@ const AIDevWidget = ({ isExpanded, toggleExpand, collapsedHeight, expandedHeight
   
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || isMobile) return; // Disable canvas on mobile
     const ctx = canvas.getContext("2d");
     let frame = 0;
     let animationFrameId;
@@ -572,20 +568,19 @@ const AIDevWidget = ({ isExpanded, toggleExpand, collapsedHeight, expandedHeight
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <motion.div
       className="glass-container p-4 flex flex-col will-change-transform"
       whileHover={!isMobile ? { scale: 1.05 } : {}}
-      whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.2 }}
     >
       <div className="flex justify-between items-center mb-2">
         <div>
-          <h3 className="text-white text-lg font-semibold shiny-text">AI Dev</h3>
-          <p className="text-white text-sm shiny-text">v0id - Synthetic Mind · Recents</p>
+          <h3 className="text-white text-lg font-semibold">AI Dev</h3>
+          <p className="text-white text-sm">v0id - Synthetic Mind · Recents</p>
         </div>
         <button onClick={toggleExpand} className="text-white/50 hover:text-white transition-colors duration-200">
           <motion.div
@@ -718,11 +713,10 @@ const DynamicQuoteWidget = ({ isMobile }) => {
     <motion.div 
       className="glass-container p-6 rounded-3xl flex flex-col items-center text-center h-full will-change-transform"
       whileHover={!isMobile ? { scale: 1.05 } : {}}
-      whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.2 }}
     >
-      <h2 className="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white shiny-text">Visionary Quote</h2>
+      <h2 className="text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white">Visionary Quote</h2>
       <div className="text-white text-lg italic mb-4 min-h-[4rem] flex items-center justify-center flex-grow">
         {isLoading ? (
           <div className="flex items-center justify-center">
@@ -732,7 +726,7 @@ const DynamicQuoteWidget = ({ isMobile }) => {
             </svg>
           </div>
         ) : (
-          <div className="shiny-text">
+          <div>
             <p className="text-xl mb-2">"{quote.text}"</p>
             <p className="text-sm font-light text-white">- {quote.author}</p>
           </div>
@@ -754,7 +748,6 @@ const SkillCard = ({ skill, isMobile }) => (
   <motion.div
     className="glass-container p-4 rounded-xl flex items-center space-x-4 h-full will-change-transform"
     whileHover={!isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
-    whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
     viewport={{ once: true, amount: 0.2 }}
     transition={{ duration: 0.2 }}
   >
@@ -762,8 +755,8 @@ const SkillCard = ({ skill, isMobile }) => (
       <img src={skill.iconUrl} alt={`${skill.name} icon`} className="w-10 h-10 object-contain filter invert" />
     </div>
     <div className="flex-grow">
-      <h4 className="text-lg font-semibold text-white shiny-text">{skill.name}</h4>
-      <p className="text-sm text-white shiny-text">{skill.description}</p>
+      <h4 className="text-lg font-semibold text-white">{skill.name}</h4>
+      <p className="text-sm text-white">{skill.description}</p>
     </div>
   </motion.div>
 );
@@ -773,26 +766,25 @@ const SkillAndSEOSection = ({ isMobile }) => {
   return (
     <>
       <section id="seo-services" className="space-y-6">
-        <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white text-center shiny-text">SEO Services</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white text-center">SEO Services</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {seoServices.map((service, index) => (
             <motion.div
               key={index}
               className="glass-container p-4 rounded-xl flex flex-col items-center justify-center text-center space-y-2 will-change-transform"
               whileHover={!isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
-              whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.2 }}
             >
               {service.icon}
-              <p className="text-white text-sm font-medium mt-2 shiny-text">{service.name}</p>
+              <p className="text-white text-sm font-medium mt-2">{service.name}</p>
             </motion.div>
           ))}
         </div>
       </section>
 
       <section id="skills-list" className="space-y-6 mt-12">
-        <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white text-center shiny-text">Skills</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white text-center">Skills</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {skillsData.map((skill, index) => (
             <SkillCard key={index} skill={skill} isMobile={isMobile} />
@@ -833,7 +825,6 @@ const App = () => {
   const navRef = useRef(null);
   // We'll store the mouse position relative to the viewport
   const mousePosition = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
-  const shinyTextElementsRef = useRef([]);
 
   const handleNavLinkClick = (id) => {
     const element = document.getElementById(id);
@@ -879,71 +870,39 @@ const App = () => {
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
+      if (backgroundCanvasRef.current) {
+        backgroundCanvasRef.current.width = window.innerWidth;
+        backgroundCanvasRef.current.height = window.innerHeight;
+      }
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  // FIX: This useEffect now applies a static glow on mobile and the dynamic one on desktop.
+  
+  // New useEffect to handle mouse movement for the background glow
   useEffect(() => {
-    const updateGlow = () => {
-      if (isMobile) {
-        // Static glow for mobile
-        const centerStyle = `0 0 10px rgba(255, 255, 255, 0.5)`;
-        shinyTextElementsRef.current.forEach(el => {
-          el.style.textShadow = centerStyle;
-        });
-      } else {
-        // Dynamic glow for desktop
-        const { x, y } = mousePosition.current;
-        const maxGlowDistance = 200;
-        shinyTextElementsRef.current.forEach(el => {
-          if (!el) return;
-          const rect = el.getBoundingClientRect();
-          const elCenterX = rect.left + rect.width / 2;
-          const elCenterY = rect.top + rect.height / 2;
-          
-          const distance = Math.hypot(elCenterX - x, elCenterY - y + window.scrollY);
-          const intensity = Math.max(0, 1 - distance / maxGlowDistance);
-          el.style.textShadow = `0 0 ${1 + intensity * 3}px rgba(255, 255, 255, ${0.2 + intensity * 0.3})`;
-        });
-      }
-    };
-
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (event) => {
       if (!isMobile) {
-        mousePosition.current = { x: e.clientX, y: e.clientY };
-        updateGlow();
+        mousePosition.current = { x: event.clientX, y: event.clientY };
       }
     };
-
-    const handleScroll = () => {
-      updateGlow();
+    const handleTouchMove = (event) => {
+      if (isMobile && event.touches.length > 0) {
+        mousePosition.current = { x: event.touches[0].clientX, y: event.touches[0].clientY };
+      }
     };
-    
-    const updateShinyElements = () => {
-      shinyTextElementsRef.current = document.querySelectorAll('.shiny-text');
-      updateGlow();
-    };
-    
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('touchmove', handleTouchMove);
     
-    updateShinyElements();
-    const observer = new MutationObserver(updateShinyElements);
-    observer.observe(document.body, { childList: true, subtree: true });
-
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('scroll', handleScroll);
-      observer.disconnect();
+      window.removeEventListener('touchmove', handleTouchMove);
     };
   }, [isMobile]);
 
-  // The background canvas logic remains the same
   useEffect(() => {
     const canvas = backgroundCanvasRef.current;
-    if (!canvas) return;
+    if (!canvas || isMobile) return; // Disable canvas on mobile
     const ctx = canvas.getContext('2d');
     let animationFrameId;
 
@@ -986,16 +945,15 @@ const App = () => {
     };
 
     const draw = () => {
-      // Fix: Continuously update the canvas height in the animation loop
       canvas.width = window.innerWidth;
-      canvas.height = Math.max(window.innerHeight, document.documentElement.scrollHeight);
+      canvas.height = window.innerHeight;
       
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = '#0a0a0a';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
       const mouseX = mousePosition.current.x;
-      const mouseY = mousePosition.current.y + window.scrollY;
+      const mouseY = mousePosition.current.y;
       
       const rows = Math.ceil(canvas.height / (gridSize * 1.5)) + 1;
       const cols = Math.ceil(canvas.width / (gridSize * 2)) + 1;
@@ -1008,7 +966,8 @@ const App = () => {
           const x = offsetX + c * (gridSize * 2) + ((r % 2) === 1 ? gridSize : 0) - gridSize;
           const y = offsetY + r * (gridSize * 1.5);
           
-          const distance = Math.hypot(x - mouseX, y - mouseY);
+          const scrollAdjustedMouseY = mouseY + window.scrollY;
+          const distance = Math.hypot(x - mouseX, y - scrollAdjustedMouseY);
           const maxDistance = Math.hypot(window.innerWidth, window.innerHeight);
           const shade = 1 - Math.min(distance / (maxDistance * 0.2), 1);
           
@@ -1019,21 +978,12 @@ const App = () => {
       animationFrameId = requestAnimationFrame(draw);
     };
     
-    // Call the draw function immediately and on every resize
-    const handleResize = () => {
-        canvas.width = window.innerWidth;
-        canvas.height = Math.max(window.innerHeight, document.documentElement.scrollHeight);
-        draw();
-    };
-    
-    window.addEventListener('resize', handleResize);
     draw();
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [isMobile]);
 
   const allCategories = ["All", ...new Set(projects.map(p => p.category))];
   const filteredProjects = activeFilter === "All" ? projects : projects.filter(p => p.category === activeFilter);
@@ -1062,7 +1012,7 @@ const App = () => {
       
       <TopNav handleNavLinkClick={handleNavLinkClick} navRef={navRef} isMobile={isMobile} />
       
-      <div className="relative z-30 flex flex-col min-h-screen">
+      <div className="relative z-30 flex flex-col">
         <div className="flex-1 px-4 md:px-12 pt-28 md:pt-24 pb-12">
           <div className="max-w-4xl mx-auto space-y-12">
             
@@ -1076,7 +1026,6 @@ const App = () => {
               <motion.div
                 className="mb-4 w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-2 border-white/50 shadow-lg will-change-transform"
                 whileHover={!isMobile ? { scale: 1.1, rotate: 2 } : {}}
-                whileInView={isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.3 }}
               >
@@ -1087,18 +1036,18 @@ const App = () => {
                   onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/160x160/252f3e/ffffff?text=CK'; }}
                 />
               </motion.div>
-              <h1 className="text-4xl md:text-6xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white shiny-text">
+              <h1 className="text-4xl md:text-6xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white">
                 Calvin Korkie
               </h1>
-              <p className="text-xl md:text-2xl text-white shiny-text">Software Engineer | Product Designer</p>
-              <a href="mailto:null@v0id.live" target="_blank" rel="noopener noreferrer" className="text-sm md:text-base text-white hover:text-white/80 shiny-text mt-2 cursor-pointer">
+              <p className="text-xl md:text-2xl text-white">Designer | Software Engineer</p>
+              <a href="mailto:null@v0id.live" target="_blank" rel="noopener noreferrer" className="text-sm md:text-base text-white hover:text-white/80 mt-2 cursor-pointer">
                 null@v0id.live
               </a>
-              <p className="text-sm md:text-base text-white shiny-text mt-2">Cape Town, South Africa</p>
+              <p className="text-sm md:text-base text-white mt-2">Cape Town, South Africa</p>
             </header>
 
             <section id="spaces-and-generative-art">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white text-center shiny-text">My Spaces & Generative Art</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white text-center">My Spaces</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
                 <AIDevWidget 
                   isExpanded={areWidgetsExpanded}
@@ -1118,15 +1067,15 @@ const App = () => {
             </section>
 
             <section id="about" className="glass-container p-8">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white shiny-text">About Me</h2>
-              <p className="text-white leading-relaxed shiny-text">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white">About Me</h2>
+              <p className="text-white leading-relaxed">
                 Hi, I'm a passionate developer with a knack for building beautiful and functional user interfaces. I love creating engaging web experiences that are both visually appealing and highly performant. My skills include React, Tailwind CSS, and a deep appreciation for modern design principles like the one you see here!
               </p>
             </section>
             
             <section id="projects">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-                <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white mb-4 md:mb-0 shiny-text">Projects</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white mb-4 md:mb-0">Projects</h2>
                 <div className="flex flex-wrap gap-2">
                   {allCategories.map((category) => (
                     <button
@@ -1162,7 +1111,7 @@ const App = () => {
             </section>
             
             <section id="experience">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white text-center shiny-text">Experience</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white text-center">Experience</h2>
               <div className="space-y-6">
                 {experience.map((item) => (
                   <ExperienceCard key={item.id} item={item} isMobile={isMobile} />
@@ -1178,98 +1127,40 @@ const App = () => {
               <DynamicQuoteWidget isMobile={isMobile} />
             </section>
 
-            <section id="contact" className="p-8 mt-12 text-center">
-              <h2 className="text-3xl md:text-4xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white shiny-text">Contact Me</h2>
-              
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                {/* Social Icons Column */}
-                <motion.div
-                  className="glass-container p-8 flex flex-col justify-center items-center h-full will-change-transform"
-                  whileHover={!isMobile ? { scale: 1.05 } : {}}
-                  whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+            <section id="contact" className="glass-container p-8 text-center mt-12">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white">Get In Touch</h2>
+              <div className="flex justify-center space-x-6">
+                <motion.a
+                  href="https://www.behance.net/calvin-portfolio"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="contact-icon hover:text-white transition-colors duration-300 will-change-transform"
+                  whileHover={!isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <p className="text-white text-lg font-semibold mb-4 shiny-text">Connect with me</p>
-                  <div className="flex justify-center space-x-6">
-                    <motion.a
-                      href="https://www.behance.net/calvin-portfolio"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="contact-icon hover:text-white transition-colors duration-300 will-change-transform"
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <Behance size={40} />
-                    </motion.a>
-                    <motion.a
-                      href="https://linkedin.com/in/your-username"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="contact-icon hover:text-white transition-colors duration-300 will-change-transform"
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-                    </motion.a>
-                    <motion.a
-                      href="mailto:null@v0id.live"
-                      className="contact-icon hover:text-white transition-colors duration-300 will-change-transform"
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
-                    </motion.a>
-                  </div>
-                </motion.div>
-                
-                {/* Contact Form Column */}
-                <motion.div
-                  className="glass-container p-8 flex flex-col will-change-transform"
-                  whileHover={!isMobile ? { scale: 1.05 } : {}}
-                  whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+                  <Behance size={40} />
+                </motion.a>
+                <motion.a
+                  href="https://linkedin.com/in/your-username"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="contact-icon hover:text-white transition-colors duration-300 will-change-transform"
+                  whileHover={!isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <form className="w-full text-left">
-                    <div className="mb-4">
-                      <label htmlFor="name" className="block text-white text-sm font-semibold mb-2 shiny-text">Name</label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        className="glass-input w-full p-3 rounded-lg border border-white/20 bg-white/10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200"
-                        placeholder="Your name"
-                      />
-                    </div>
-                    <div className="mb-4">
-                      <label htmlFor="email" className="block text-white text-sm font-semibold mb-2 shiny-text">Email</label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        className="glass-input w-full p-3 rounded-lg border border-white/20 bg-white/10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200"
-                        placeholder="Your email address"
-                      />
-                    </div>
-                    <div className="mb-6">
-                      <label htmlFor="message" className="block text-white text-sm font-semibold mb-2 shiny-text">Message</label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        rows="4"
-                        className="glass-input w-full p-3 rounded-lg border border-white/20 bg-white/10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200"
-                        placeholder="Your message"
-                      ></textarea>
-                    </div>
-                    <button
-                      type="submit"
-                      className="glass-button w-full px-6 py-3 rounded-full font-bold text-lg bg-white/10 text-white hover:bg-white/20 transition-all duration-300"
-                    >
-                      Send Message
-                    </button>
-                  </form>
-                </motion.div>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </motion.a>
+                <motion.a
+                  href="mailto:null@v0id.live"
+                  className="contact-icon hover:text-white transition-colors duration-300 will-change-transform"
+                  whileHover={!isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
+                </motion.a>
               </div>
             </section>
           </div>
@@ -1343,20 +1234,12 @@ const App = () => {
           50% { opacity: 0.8; }
         }
         
-        .shiny-text {
-            transition: text-shadow 0.2s ease-out;
-            text-shadow: 0 0 1px rgba(255, 255, 255, 0.2);
-        }
-        .shiny-text-mobile-glow {
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-
         .background-canvas {
-          position: absolute;
+          position: fixed;
           top: 0;
           left: 0;
           width: 100%;
-          /* Fix: The canvas height is now handled dynamically in the JS */
+          height: 100%;
         }
       `}</style>
     </div>
@@ -1364,3 +1247,4 @@ const App = () => {
 };
 
 export default App;
+
