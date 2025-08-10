@@ -1,9 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { PenTool, LayoutGrid, Globe, Code, ChevronRight, ChevronDown, X, Menu, Link, Search, FileText, BarChart2, Monitor, Users, Briefcase } from "lucide-react";
 
-// --- Data for all sections ---
-const navItems = [
+// =========================================================
+// All data has been moved here to keep components clean.
+// =========================================================
+
+export const navItems = [
   { id: "home", label: "Home", icon: <PenTool /> },
   { id: "about", label: "About", icon: <Code /> },
   { id: "projects", label: "Projects", icon: <LayoutGrid /> },
@@ -11,7 +14,7 @@ const navItems = [
   { id: "contact", label: "Contact", icon: <Globe /> },
 ];
 
-const projects = [
+export const projects = [
   {
     id: "awaken",
     name: "AWAKEN",
@@ -170,7 +173,7 @@ const projects = [
   },
 ];
 
-const experience = [
+export const experience = [
   {
     id: "clouds-dev",
     position: "Brand Design & Web Developer",
@@ -212,9 +215,9 @@ const experience = [
     ),
   },
   {
-    id: "abstract-design",
+    id: "pixelperfect-design",
     position: "Senior Graphic Designer",
-    company: "Abstract Studios",
+    company: "PixelPerfect Studios",
     duration: "January 2018 - January 2021",
     description: "Led a team of designers in creating visually stunning and effective marketing materials. Specialized in brand identity, UI/UX, and print design.",
     technologies: ["Adobe Creative Suite", "Figma", "Sketch", "Print Design"],
@@ -223,9 +226,7 @@ const experience = [
   },
 ];
 
-
-// --- Data for new Skills and SEO sections ---
-const seoServices = [
+export const seoServices = [
   { name: "Keyword Research", icon: <Search className="w-8 h-8 text-white" /> },
   { name: "On-Page SEO", icon: <FileText className="w-8 h-8 text-white" /> },
   { name: "Off-Page SEO", icon: <Link className="w-8 h-8 text-white" /> },
@@ -236,7 +237,7 @@ const seoServices = [
   { name: "Competitor Analysis", icon: <Users className="w-8 h-8 text-white" /> },
 ];
 
-const skillsData = [
+export const skillsData = [
   { name: "Figma", iconUrl: "https://www.vectorlogo.zone/logos/figma/figma-icon.svg", description: "Expert in UI/UX design, prototyping, and collaborative workflows." },
   { name: "Adobe Photoshop", iconUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/1024px-Adobe_Photoshop_CC_icon.png", description: "Proficient in image manipulation, digital painting, and graphic design." },
   { name: "Adobe Illustrator", iconUrl: "https://upload.wikimedia.org/wikipedia/commons/f/fb/Adobe_Illustrator_CC_icon.svg", description: "Skilled in vector graphics, logo design, and illustration." },
@@ -251,200 +252,9 @@ const skillsData = [
   { name: "Google Cloud", iconUrl: "https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg", description: "Familiar with cloud services for deployment and data management." },
 ];
 
-// --- Component Definitions ---
-
-/**
- * ExpandablePhotosWidget Component
- * Manages the display of a collection of photos with an expand/collapse feature.
- */
-const ExpandablePhotosWidget = ({ isExpanded, setIsExpanded, setSelectedImage, collapsedHeight, isMobile }) => {
-  const allPhotos = [
-    "https://i.ibb.co/CK0tHVsB/awaken-eye-red.png",
-    "https://i.ibb.co/p7297MR/vo0id-logo.png",
-    "https://i.ibb.co/PGFQkrJM/think.png",
-    "https://i.ibb.co/9mgwLzSG/clouds-1.png",
-    "https://i.ibb.co/MxTwCzyd/handddd.png",
-    "https://i.ibb.co/nqWwwQd0/kopoai-grey.png",
-    "https://placehold.co/150x150/FFFF00/000000?text=Logo+7",
-    "https://placehold.co/150x150/800080/FFFFFF?text=Logo+8",
-    "https://placehold.co/150x150/FFA500/000000?text=Logo+9",
-    "https://placehold.co/150x150/00FFFF/000000?text=Logo+10",
-    "https://placehold.co/150x150/FF00FF/000000?text=Logo+11",
-    "https://placehold.co/150x150/008080/FFFFFF?text=Logo+12",
-  ];
-
-  const collapsedCount = 6;
-  const visiblePhotos = isExpanded ? allPhotos : allPhotos.slice(0, collapsedCount);
-  const logoWrapperSize = 100;
-  const gapSize = 24;
-  const containerPadding = 12;
-  const numRowsWhenExpanded = Math.ceil(allPhotos.length / 3);
-  const actualGridContentHeightExpanded = (numRowsWhenExpanded * logoWrapperSize) + Math.max(0, (numRowsWhenExpanded - 1) * gapSize);
-  const expandedContainerHeight = actualGridContentHeightExpanded + (containerPadding * 2);
-
-  return (
-    <motion.div
-      className="glass-container p-4 flex flex-col"
-      whileHover={!isMobile ? { scale: 1.05 } : {}}
-      whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.2 }}
-    >
-      <div className="flex justify-between items-center cursor-pointer mb-2" onClick={() => setIsExpanded(!isExpanded)}>
-        <div>
-          <h3 className="text-white text-lg font-semibold shiny-text">Photos</h3>
-          <p className="text-white text-sm shiny-text">Library · {allPhotos.length} Photos</p>
-        </div>
-        {isExpanded ? (
-          <ChevronDown className="w-4 h-4 text-white/50 transition-transform duration-300 transform rotate-180" />
-        ) : (
-          <ChevronRight className="w-4 h-4 text-white/50 transition-transform duration-300" />
-        )}
-      </div>
-      <div
-        className="rounded-xl overflow-hidden bg-white/10 px-3 py-3 flex items-center justify-center"
-        style={{
-          height: isExpanded ? `${expandedContainerHeight}px` : collapsedHeight,
-          transition: 'height 0.3s ease-out',
-        }}
-      >
-        <motion.div
-          className="grid grid-cols-3 gap-6 w-full items-center justify-center"
-          layout
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-        >
-          {visiblePhotos.map((url, i) => (
-            <motion.div
-              key={i}
-              className="aspect-square w-full max-w-[100px] mx-auto cursor-pointer flex items-center justify-center"
-              initial={false}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-              onClick={() => setSelectedImage(url)}
-            >
-              <img
-                src={url}
-                alt={`Logo ${i + 1}`}
-                className="w-20 h-20 object-contain rounded-lg"
-                onContextMenu={(e) => e.preventDefault()}
-                style={{ WebkitTouchCallout: "none" }}
-              />
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-      {isExpanded && allPhotos.length > collapsedCount && (
-        <p className="text-white text-xs mt-2 text-center shiny-text">Click arrow to collapse</p>
-      )}
-    </motion.div>
-  );
-};
-
-/**
- * AIDevWidget Component
- * Manages the display of the AI Dev content with an expand/collapse feature for its description.
- */
-const AIDevWidget = ({ isExpanded, setIsExpanded, collapsedHeight, isMobile }) => {
-  const showAIDevDescription = isExpanded;
-  const canvasRef = useRef(null);
-  
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    let frame = 0;
-    let animationFrameId;
-
-    const draw = () => {
-      const w = canvas.width = canvas.offsetWidth;
-      const h = canvas.height = canvas.offsetHeight;
-      ctx.clearRect(0, 0, w, h);
-      const centerX = w / 2;
-      const centerY = h / 2;
-      const radius = Math.min(w, h) / 2 - 20;
-      const numLines = 18;
-      ctx.strokeStyle = '#000000';
-      ctx.lineWidth = 1;
-      ctx.fillStyle = '#000000';
-
-      for (let i = 0; i < numLines; i++) {
-        const angle = (i / numLines) * 2 * Math.PI;
-        const endX = centerX + radius * Math.cos(angle);
-        const endY = centerY + radius * Math.sin(angle);
-        ctx.beginPath();
-        ctx.moveTo(centerX, centerY);
-        ctx.lineTo(endX, endY);
-        ctx.stroke();
-
-        const numDots = 4;
-        for (let j = 1; j <= numDots; j++) {
-          const baseRadius = radius * (j / (numDots + 1));
-          const wavePhase = frame * 0.015;
-          const dotPhase = wavePhase - (j * 0.5);
-          const waveOffset = Math.sin(dotPhase + Math.PI) * 15;
-          const dotRadius = baseRadius + waveOffset;
-          const dotX = centerX + dotRadius * Math.cos(angle);
-          const dotY = centerY + dotRadius * Math.sin(angle);
-          const sizeMultiplier = Math.sin(dotPhase + Math.PI/2) * 0.5 + 1.2;
-          const dotSize = 3 * sizeMultiplier;
-          ctx.beginPath();
-          ctx.arc(dotX, dotY, dotSize, 0, 2 * Math.PI);
-          ctx.fill();
-        }
-      }
-      frame++;
-      animationFrameId = requestAnimationFrame(draw);
-    };
-
-    draw();
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
-
-  return (
-    <motion.div
-      className="glass-container p-4 flex flex-col"
-      whileHover={!isMobile ? { scale: 1.05 } : {}}
-      whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.2 }}
-    >
-      <div className="flex justify-between items-center cursor-pointer mb-2" onClick={() => setIsExpanded(!isExpanded)}>
-        <div>
-          <h3 className="text-white text-lg font-semibold shiny-text">AI Dev</h3>
-          <p className="text-white text-sm shiny-text">v0id - Synthetic Mind · Recents</p>
-        </div>
-        {showAIDevDescription ? (
-          <ChevronDown className="w-4 h-4 text-white/50 transition-transform duration-300 transform rotate-180" />
-        ) : (
-          <ChevronRight className="w-4 h-4 text-white/50 transition-transform duration-300" />
-        )}
-      </div>
-      <div
-        className="rounded-xl overflow-hidden bg-[#bdc0a7] px-3 py-3 flex items-center justify-center"
-        style={{
-          height: collapsedHeight,
-        }}
-      >
-        <canvas ref={canvasRef} className="w-[calc(100%-24px)] h-[calc(100%-24px)]"></canvas>
-      </div>
-      <motion.div
-        initial={{ opacity: 0, height: 0 }}
-        animate={{ opacity: isExpanded ? 1 : 0, height: isExpanded ? 'auto' : 0 }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="overflow-hidden"
-      >
-        {isExpanded && (
-          <p className="text-white text-sm mt-4 shiny-text">
-            The Synthetic Mind, a core project by v0id, is an interactive AI art piece designed to simulate complex cognitive processes. It maintains a dynamic semantic network of concepts, an episodic memory of past thoughts, and a set of internal drives (curiosity, purpose, etc.). This architecture allows the mind to generate reflective thoughts by prompting a large language model with rich context, including recent internal monologues, key focus concepts, and its evolving identity. It can also ingest external data, like Wikipedia summaries, to simulate continuous learning and growth. The result is a compelling, real-time display of an AI's internal world, inviting users to observe and interact with a truly evolving digital consciousness, offering a unique glimpse into an artificial mind's inner workings.
-          </p>
-        )}
-      </motion.div>
-    </motion.div>
-  );
-};
+// =========================================================
+// All components are now defined in this single file.
+// =========================================================
 
 /**
  * TopNav Component
@@ -477,8 +287,8 @@ const TopNav = ({ handleNavLinkClick, navRef, isMobile }) => {
 
   return (
     <div ref={navRef} className="fixed top-0 left-0 right-0 z-40 p-4 flex justify-center">
-      <div className="glass-container flex flex-row gap-6 px-4 py-2 items-center w-full md:w-auto">
-        <div className="flex-1 flex gap-4 md:gap-6 items-center">
+      <div className="glass-container flex flex-row gap-2 md:gap-6 px-4 py-2 items-center w-full md:w-auto">
+        <div className="flex-1 flex gap-2 md:gap-6 items-center">
           {navItems.map((item) => (
             <div
               key={item.id}
@@ -496,53 +306,12 @@ const TopNav = ({ handleNavLinkClick, navRef, isMobile }) => {
             </div>
           ))}
         </div>
-        <div className="h-4 w-px bg-white/20 mx-2 hidden md:block"></div>
+        <div className="h-4 w-px bg-white/20 mx-1 md:mx-2"></div>
         <div className="text-white font-semibold shiny-text text-xs whitespace-nowrap">
           {formatDateTime(time)}
         </div>
       </div>
     </div>
-  );
-};
-
-/**
- * LargeImageViewer Component
- * Displays a selected image in a compact, integrated view.
- */
-const LargeImageViewer = ({ imageUrl, onClose }) => {
-  if (!imageUrl) return null;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.2, ease: "easeInOut" }}
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-      onClick={onClose}
-    >
-      <div
-        className="relative flex flex-col items-center justify-center bg-white/10 shadow-2xl rounded-xl border-2 border-white/50 p-4 w-full max-w-sm md:max-w-2xl aspect-square"
-        style={{ outline: 'none' }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button onClick={onClose} className="absolute top-2 left-2 w-10 h-10 bg-red-500/80 backdrop-blur-sm hover:bg-red-600/90 transition-all duration-200 z-10 rounded-full flex items-center justify-center shadow-lg" aria-label="Close image">
-          <X className="w-6 h-6 text-white" />
-        </button>
-        <img
-          src={imageUrl}
-          alt="Large view"
-          className="w-full h-full max-w-full max-h-full object-contain rounded-xl"
-          style={{ border: 'none', outline: 'none', WebkitUserSelect: "none", MozUserSelect: "none", msUserSelect: "none", userSelect: "none", WebkitTouchCallout: "none" }}
-          onContextMenu={(e) => e.preventDefault()}
-        />
-        <a href="https://www.behance.net/calvin-portfolio" target="_blank" rel="noopener noreferrer" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50">
-          <span className="text-white text-7xl md:text-7xl font-bold opacity-20 hover:opacity-40 transition-opacity" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)', userSelect: 'none', }} >
-            ©
-          </span>
-        </a>
-      </div>
-    </motion.div>
   );
 };
 
@@ -552,7 +321,7 @@ const ProjectCard = ({ project, isMobile }) => {
   
   return (
     <motion.div
-      className="glass-container p-4 md:p-6 flex flex-col h-full min-h-[350px]"
+      className="glass-container p-4 md:p-6 flex flex-col h-full min-h-[350px] will-change-transform"
       whileHover={!isMobile ? { scale: 1.05 } : {}}
       whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
       viewport={{ once: true, amount: 0.2 }}
@@ -624,7 +393,7 @@ const ProjectCard = ({ project, isMobile }) => {
 // A new Experience Card component
 const ExperienceCard = ({ item, isMobile }) => (
   <motion.div
-    className="glass-container p-6 flex flex-col h-full"
+    className="glass-container p-6 flex flex-col h-full will-change-transform"
     whileHover={!isMobile ? { scale: 1.05 } : {}}
     whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
     viewport={{ once: true, amount: 0.2 }}
@@ -658,7 +427,231 @@ const ExperienceCard = ({ item, isMobile }) => (
   </motion.div>
 );
 
-// A new Dynamic Quote Widget that uses a generative AI model
+/**
+ * ExpandablePhotosWidget Component
+ * Manages the display of a collection of photos with an expand/collapse feature.
+ */
+const ExpandablePhotosWidget = ({ isExpanded, toggleExpand, collapsedHeight, expandedHeight, isMobile }) => {
+  const allPhotos = [
+    "https://i.ibb.co/CK0tHVsB/awaken-eye-red.png",
+    "https://i.ibb.co/p7297MR/vo0id-logo.png",
+    "https://i.ibb.co/PGFQkrJM/think.png",
+    "https://i.ibb.co/9mgwLzSG/clouds-1.png",
+    "https://i.ibb.co/MxTwCzyd/handddd.png",
+    "https://i.ibb.co/nqWwwQd0/kopoai-grey.png",
+    "https://placehold.co/150x150/FFFF00/000000?text=Logo+7",
+    "https://placehold.co/150x150/800080/FFFFFF?text=Logo+8",
+    "https://placehold.co/150x150/FFA500/000000?text=Logo+9",
+    "https://placehold.co/150x150/00FFFF/000000?text=Logo+10",
+    "https://placehold.co/150x150/FF00FF/000000?text=Logo+11",
+    "https://placehold.co/150x150/008080/FFFFFF?text=Logo+12",
+  ];
+
+  const visiblePhotos = isExpanded ? allPhotos : allPhotos.slice(0, 6);
+
+  return (
+    <motion.div
+      className="glass-container p-4 flex flex-col will-change-transform"
+      whileHover={!isMobile ? { scale: 1.05 } : {}}
+      whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.2 }}
+    >
+      <div className="flex justify-between items-center mb-2">
+        <div>
+          <h3 className="text-white text-lg font-semibold shiny-text">Photos</h3>
+          <p className="text-white text-sm shiny-text">Library · {allPhotos.length} Photos</p>
+        </div>
+        <button onClick={toggleExpand} className="text-white/50 hover:text-white transition-colors duration-200">
+          <motion.div
+            animate={{ rotate: isExpanded ? 90 : 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+          </motion.div>
+        </button>
+      </div>
+      <motion.div
+        className="rounded-xl overflow-hidden bg-white/10 px-3 py-3 flex items-center justify-center"
+        initial={{ height: collapsedHeight }}
+        animate={{ height: isExpanded ? expandedHeight : collapsedHeight }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+      >
+        <motion.div
+          className="grid grid-cols-3 gap-6 w-full items-center justify-center"
+          layout
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+        >
+          {visiblePhotos.map((url, i) => (
+            <motion.div
+              key={i}
+              className="aspect-square w-full max-w-[100px] mx-auto cursor-pointer flex items-center justify-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3, delay: i * 0.05, ease: "easeInOut" }}
+            >
+              <img
+                src={url}
+                alt={`Logo ${i + 1}`}
+                className="w-20 h-20 object-contain rounded-lg"
+                onContextMenu={(e) => e.preventDefault()}
+                style={{ WebkitTouchCallout: "none" }}
+              />
+            </motion.div>
+          ))}
+        </motion.div>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+/**
+ * AIDevWidget Component
+ * Manages the display of the AI Dev content in a static state.
+ */
+const AIDevWidget = ({ isExpanded, toggleExpand, collapsedHeight, expandedHeight, isMobile }) => {
+  const canvasRef = useRef(null);
+  
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    let frame = 0;
+    let animationFrameId;
+
+    const draw = () => {
+      // Make the canvas resize dynamically to its container
+      const w = canvas.offsetWidth;
+      const h = canvas.offsetHeight;
+      if (canvas.width !== w || canvas.height !== h) {
+        canvas.width = w;
+        canvas.height = h;
+      }
+
+      ctx.clearRect(0, 0, w, h);
+      const centerX = w / 2;
+      const centerY = h / 2;
+      const radius = Math.min(w, h) / 2 - 20;
+      const numLines = 18;
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 1;
+      ctx.fillStyle = '#000000';
+
+      for (let i = 0; i < numLines; i++) {
+        const angle = (i / numLines) * 2 * Math.PI;
+        const endX = centerX + radius * Math.cos(angle);
+        const endY = centerY + radius * Math.sin(angle);
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(endX, endY);
+        ctx.stroke();
+
+        const numDots = 4;
+        for (let j = 1; j <= numDots; j++) {
+          const baseRadius = radius * (j / (numDots + 1));
+          const wavePhase = frame * 0.015;
+          const dotPhase = wavePhase - (j * 0.5);
+          const waveOffset = Math.sin(dotPhase + Math.PI) * 15;
+          const dotRadius = baseRadius + waveOffset;
+          const dotX = centerX + dotRadius * Math.cos(angle);
+          const dotY = centerY + dotRadius * Math.sin(angle);
+          const sizeMultiplier = Math.sin(dotPhase + Math.PI/2) * 0.5 + 1.2;
+          const dotSize = 3 * sizeMultiplier;
+          ctx.beginPath();
+          ctx.arc(dotX, dotY, dotSize, 0, 2 * Math.PI);
+          ctx.fill();
+        }
+      }
+      frame++;
+      animationFrameId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return (
+    <motion.div
+      className="glass-container p-4 flex flex-col will-change-transform"
+      whileHover={!isMobile ? { scale: 1.05 } : {}}
+      whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.2 }}
+    >
+      <div className="flex justify-between items-center mb-2">
+        <div>
+          <h3 className="text-white text-lg font-semibold shiny-text">AI Dev</h3>
+          <p className="text-white text-sm shiny-text">v0id - Synthetic Mind · Recents</p>
+        </div>
+        <button onClick={toggleExpand} className="text-white/50 hover:text-white transition-colors duration-200">
+          <motion.div
+            animate={{ rotate: isExpanded ? 90 : 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+          </motion.div>
+        </button>
+      </div>
+      <motion.div
+        className="rounded-xl overflow-hidden bg-[#bdc0a7] px-3 py-3 flex items-center justify-center"
+        initial={{ height: collapsedHeight }}
+        animate={{ height: isExpanded ? expandedHeight : collapsedHeight }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+      >
+        <canvas ref={canvasRef} className="w-full h-full"></canvas>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+/**
+ * LargeImageViewer Component
+ * Displays a selected image in a compact, integrated view.
+ */
+const LargeImageViewer = ({ imageUrl, onClose }) => {
+  if (!imageUrl) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.2, ease: "easeInOut" }}
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      onClick={onClose}
+    >
+      <div
+        className="relative flex flex-col items-center justify-center bg-white/10 shadow-2xl rounded-xl border-2 border-white/50 p-4 w-full max-w-sm md:max-w-2xl aspect-square"
+        style={{ outline: 'none' }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button onClick={onClose} className="absolute top-2 left-2 w-10 h-10 bg-red-500/80 backdrop-blur-sm hover:bg-red-600/90 transition-all duration-200 z-10 rounded-full flex items-center justify-center shadow-lg" aria-label="Close image">
+          <X className="w-6 h-6 text-white" />
+        </button>
+        <img
+          src={imageUrl}
+          alt="Large view"
+          className="w-full h-full max-w-full max-h-full object-contain rounded-xl"
+          style={{ border: 'none', outline: 'none', WebkitUserSelect: "none", MozUserSelect: "none", msUserSelect: "none", userSelect: "none", WebkitTouchCallout: "none" }}
+          onContextMenu={(e) => e.preventDefault()}
+        />
+        <a href="https://www.behance.net/calvin-portfolio" target="_blank" rel="noopener noreferrer" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50">
+          <span className="text-white text-7xl md:text-7xl font-bold opacity-20 hover:opacity-40 transition-opacity" style={{ textShadow: '0 2px 4px rgba(0,0,0,0.5)', userSelect: 'none', }} >
+            ©
+          </span>
+        </a>
+      </div>
+    </motion.div>
+  );
+};
+
+/**
+ * DynamicQuoteWidget Component
+ * A new Dynamic Quote Widget that uses a generative AI model
+ */
 const DynamicQuoteWidget = ({ isMobile }) => {
   const [quote, setQuote] = useState({ text: "Loading quote...", author: "" });
   const [isLoading, setIsLoading] = useState(false);
@@ -722,7 +715,7 @@ const DynamicQuoteWidget = ({ isMobile }) => {
 
   return (
     <motion.div 
-      className="glass-container p-6 rounded-3xl flex flex-col items-center text-center h-full"
+      className="glass-container p-6 rounded-3xl flex flex-col items-center text-center h-full will-change-transform"
       whileHover={!isMobile ? { scale: 1.05 } : {}}
       whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
       viewport={{ once: true, amount: 0.2 }}
@@ -758,7 +751,7 @@ const DynamicQuoteWidget = ({ isMobile }) => {
 // Skill Card Component
 const SkillCard = ({ skill, isMobile }) => (
   <motion.div
-    className="glass-container p-4 rounded-xl flex items-center space-x-4 h-full"
+    className="glass-container p-4 rounded-xl flex items-center space-x-4 h-full will-change-transform"
     whileHover={!isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
     whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
     viewport={{ once: true, amount: 0.2 }}
@@ -784,7 +777,7 @@ const SkillAndSEOSection = ({ isMobile }) => {
           {seoServices.map((service, index) => (
             <motion.div
               key={index}
-              className="glass-container p-4 rounded-xl flex flex-col items-center justify-center text-center space-y-2"
+              className="glass-container p-4 rounded-xl flex flex-col items-center justify-center text-center space-y-2 will-change-transform"
               whileHover={!isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
               whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
               viewport={{ once: true, amount: 0.2 }}
@@ -824,15 +817,20 @@ const Behance = ({ size = 24, className }) => (
 );
 
 
-// --- Main App Component ---
+// =========================================================
+// This is the main application file.
+// =========================================================
+
 const App = () => {
   const [selectedImage, setSelectedImage] = useState(null);
-  const [isWidgetsExpanded, setIsWidgetsExpanded] = useState(false);
   const [activeFilter, setActiveFilter] = useState("All");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  // Renamed and combined the state for widgets
+  const [areWidgetsExpanded, setAreWidgetsExpanded] = useState(false);
   
   const backgroundCanvasRef = useRef(null);
-  const navRef = useRef(null); // Reference to the nav container
+  const navRef = useRef(null);
+  // We'll store the mouse position relative to the viewport
   const mousePosition = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
   const shinyTextElementsRef = useRef([]);
 
@@ -841,12 +839,30 @@ const App = () => {
     const navHeight = navRef.current ? navRef.current.offsetHeight : 0;
     if (element) {
       window.scrollTo({
-        top: element.offsetTop - navHeight - 16, // Added padding for a better view
+        top: element.offsetTop - navHeight - 16,
         behavior: "smooth",
       });
     }
   };
-
+  
+  const toggleWidgets = () => {
+    if (!isMobile) {
+      // On desktop, toggle both widgets at the same time
+      setAreWidgetsExpanded(!areWidgetsExpanded);
+    }
+  };
+  
+  // This function will be passed to each widget.
+  // It checks if it's mobile and if so, it will toggle the state individually.
+  // Otherwise, it will call the function to toggle both.
+  const handleWidgetToggle = (isThisWidgetExpanded, setThisWidgetExpanded) => {
+    if (isMobile) {
+      setThisWidgetExpanded(!isThisWidgetExpanded);
+    } else {
+      setAreWidgetsExpanded(!areWidgetsExpanded);
+    }
+  };
+  
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === 'Escape' && selectedImage) {
@@ -862,10 +878,9 @@ const App = () => {
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
-      // Resize the canvas
       if (backgroundCanvasRef.current) {
         backgroundCanvasRef.current.width = window.innerWidth;
-        backgroundCanvasRef.current.height = window.innerHeight; // Fix: use window.innerHeight
+        backgroundCanvasRef.current.height = window.innerHeight;
       }
     };
     window.addEventListener('resize', handleResize);
@@ -873,35 +888,51 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    // Only run this effect for mouse tracking on desktop
     if (isMobile) return;
 
-    const handleMouseMove = (e) => {
-      mousePosition.current = { x: e.clientX, y: e.clientY };
+    // This function will update the text glow effect
+    const updateGlow = () => {
+      const { x, y } = mousePosition.current;
+      const maxGlowDistance = 200;
       shinyTextElementsRef.current.forEach(el => {
         if (!el) return;
         const rect = el.getBoundingClientRect();
         const elCenterX = rect.left + rect.width / 2;
         const elCenterY = rect.top + rect.height / 2;
-        const distance = Math.hypot(elCenterX - mousePosition.current.x, elCenterY - mousePosition.current.y);
-        const maxDistance = 200;
-        const intensity = Math.max(0, 1 - distance / maxDistance);
+        const distance = Math.hypot(elCenterX - x, elCenterY - y);
+        const intensity = Math.max(0, 1 - distance / maxGlowDistance);
         el.style.textShadow = `0 0 ${1 + intensity * 3}px rgba(255, 255, 255, ${0.2 + intensity * 0.3})`;
       });
     };
-    window.addEventListener('mousemove', handleMouseMove);
 
-    const updateShinyElements = () => {
-      shinyTextElementsRef.current = document.querySelectorAll('.shiny-text');
-      handleMouseMove({ clientX: mousePosition.current.x, clientY: mousePosition.current.y });
+    const handleMouseMove = (e) => {
+      mousePosition.current = { x: e.clientX, y: e.clientY };
+      updateGlow();
+    };
+
+    // The scroll handler just needs to trigger the glow update
+    const handleScroll = () => {
+      updateGlow();
     };
     
+    // Initial population of elements and first glow calculation
+    const updateShinyElements = () => {
+      shinyTextElementsRef.current = document.querySelectorAll('.shiny-text');
+      updateGlow();
+    };
+    
+    // Listen for mouse movement and scroll events
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('scroll', handleScroll);
+    
+    // Use a MutationObserver to re-run the glow logic when the DOM changes
     updateShinyElements();
     const observer = new MutationObserver(updateShinyElements);
     observer.observe(document.body, { childList: true, subtree: true });
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('scroll', handleScroll);
       observer.disconnect();
     };
   }, [isMobile]);
@@ -913,9 +944,6 @@ const App = () => {
     let animationFrameId;
 
     const gridSize = 40;
-    const cubeHeight = gridSize * 2;
-    const cubeWidth = gridSize * 2;
-
     const drawCube = (x, y, shade) => {
         const topShade = `hsl(0, 0%, ${Math.min(15 + shade * 60, 100)}%)`;
         const leftShade = `hsl(0, 0%, ${Math.min(10 + shade * 40, 100)}%)`;
@@ -955,7 +983,7 @@ const App = () => {
 
     const draw = () => {
       canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight; // Fix: use window.innerHeight
+      canvas.height = window.innerHeight;
       
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = '#0a0a0a';
@@ -987,7 +1015,6 @@ const App = () => {
       animationFrameId = requestAnimationFrame(draw);
     };
     
-    // Initial draw and setup
     draw();
 
     return () => {
@@ -1002,11 +1029,16 @@ const App = () => {
   const gapSize = 24;
   const containerPadding = 12;
   const numRowsWhenCollapsed = 2;
+  const numRowsWhenExpanded = Math.ceil(12 / 3);
+  
   const actualGridContentHeightCollapsed = (numRowsWhenCollapsed * logoWrapperSize) + Math.max(0, (numRowsWhenCollapsed - 1) * gapSize);
   const collapsedWidgetHeight = `${actualGridContentHeightCollapsed + (containerPadding * 2)}px`;
 
+  const actualGridContentHeightExpanded = (numRowsWhenExpanded * logoWrapperSize) + Math.max(0, (numRowsWhenExpanded - 1) * gapSize);
+  const expandedWidgetHeight = `${actualGridContentHeightExpanded + (containerPadding * 2)}px`;
+
   return (
-    <div className="relative min-h-screen text-white overflow-x-hidden" style={{ scrollBehavior: 'smooth' }}>
+    <div className="relative text-white" style={{ scrollBehavior: 'smooth' }}>
       
       <canvas ref={backgroundCanvasRef} className="background-canvas z-0"></canvas>
       
@@ -1017,9 +1049,8 @@ const App = () => {
       
       <TopNav handleNavLinkClick={handleNavLinkClick} navRef={navRef} isMobile={isMobile} />
       
-      <div className="relative z-30 flex flex-col min-h-screen">
-        
-        <div className="flex-1 overflow-y-auto px-4 md:px-12 pt-28 md:pt-24">
+      <div className="relative z-30 flex flex-col">
+        <div className="flex-1 px-4 md:px-12 pt-28 md:pt-24 pb-12">
           <div className="max-w-4xl mx-auto space-y-12">
             
             <AnimatePresence>
@@ -1030,7 +1061,7 @@ const App = () => {
 
             <header id="home" className="glass-container p-8 text-center flex flex-col items-center">
               <motion.div
-                className="mb-4 w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-2 border-white/50 shadow-lg"
+                className="mb-4 w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-2 border-white/50 shadow-lg will-change-transform"
                 whileHover={!isMobile ? { scale: 1.1, rotate: 2 } : {}}
                 whileInView={isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
                 viewport={{ once: true, amount: 0.2 }}
@@ -1047,8 +1078,8 @@ const App = () => {
                 Calvin Korkie
               </h1>
               <p className="text-xl md:text-2xl text-white shiny-text">Software Engineer | Product Designer</p>
-              <a href="mailto:anticalvin@icloud.com" target="_blank" rel="noopener noreferrer" className="text-sm md:text-base text-white hover:text-white/80 shiny-text mt-2 cursor-pointer">
-                anticalvin@icloud.com
+              <a href="mailto:null@v0id.live" target="_blank" rel="noopener noreferrer" className="text-sm md:text-base text-white hover:text-white/80 shiny-text mt-2 cursor-pointer">
+                null@v0id.live
               </a>
               <p className="text-sm md:text-base text-white shiny-text mt-2">Cape Town, South Africa</p>
             </header>
@@ -1056,15 +1087,27 @@ const App = () => {
             <section id="spaces-and-generative-art">
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white text-center shiny-text">My Spaces & Generative Art</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-                <AIDevWidget isExpanded={isWidgetsExpanded} setIsExpanded={setIsWidgetsExpanded} collapsedHeight={collapsedWidgetHeight} isMobile={isMobile} />
-                <ExpandablePhotosWidget isExpanded={isWidgetsExpanded} setIsExpanded={setIsWidgetsExpanded} setSelectedImage={setSelectedImage} collapsedHeight={collapsedWidgetHeight} isMobile={isMobile} />
+                <AIDevWidget 
+                  isExpanded={areWidgetsExpanded}
+                  toggleExpand={() => handleWidgetToggle(areWidgetsExpanded, setAreWidgetsExpanded)}
+                  collapsedHeight={collapsedWidgetHeight}
+                  expandedHeight={expandedWidgetHeight}
+                  isMobile={isMobile}
+                />
+                <ExpandablePhotosWidget 
+                  isExpanded={areWidgetsExpanded}
+                  toggleExpand={() => handleWidgetToggle(areWidgetsExpanded, setAreWidgetsExpanded)}
+                  collapsedHeight={collapsedWidgetHeight}
+                  expandedHeight={expandedWidgetHeight}
+                  isMobile={isMobile}
+                />
               </div>
             </section>
 
             <section id="about" className="glass-container p-8">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white shiny-text">About Me</h2>
               <p className="text-white leading-relaxed shiny-text">
-                I'm a multidisciplinary digital creative blending beautiful design, strategic thinking, and cutting-cutting-edge Al development. I specialize in crafting visual experiences that deliver results.
+                Hi, I'm a passionate developer with a knack for building beautiful and functional user interfaces. I love creating engaging web experiences that are both visually appealing and highly performant. My skills include React, Tailwind CSS, and a deep appreciation for modern design principles like the one you see here!
               </p>
             </section>
             
@@ -1123,13 +1166,13 @@ const App = () => {
             </section>
 
             <section id="contact" className="glass-container p-8 text-center mt-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white shiny-text">Get In Touch</h2>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white shiny-text">Contact Me</h2>
               <div className="flex justify-center space-x-6">
                 <motion.a
                   href="https://www.behance.net/calvin-portfolio"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="contact-icon hover:text-white transition-colors duration-300"
+                  className="contact-icon hover:text-white transition-colors duration-300 will-change-transform"
                   whileHover={!isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
                   whileInView={isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
                   viewport={{ once: true, amount: 0.2 }}
@@ -1141,7 +1184,7 @@ const App = () => {
                   href="https://linkedin.com/in/your-username"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="contact-icon hover:text-white transition-colors duration-300"
+                  className="contact-icon hover:text-white transition-colors duration-300 will-change-transform"
                   whileHover={!isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
                   whileInView={isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
                   viewport={{ once: true, amount: 0.2 }}
@@ -1150,8 +1193,8 @@ const App = () => {
                   <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
                 </motion.a>
                 <motion.a
-                  href="mailto:anticalvin@icloud.com"
-                  className="contact-icon hover:text-white transition-colors duration-300"
+                  href="mailto:null@v0id.live"
+                  className="contact-icon hover:text-white transition-colors duration-300 will-change-transform"
                   whileHover={!isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
                   whileInView={isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
                   viewport={{ once: true, amount: 0.2 }}
@@ -1173,6 +1216,7 @@ const App = () => {
           overflow-x: hidden;
           font-family: 'Inter', sans-serif;
           background-color: #0a0a0a;
+          touch-action: pan-y;
         }
 
         .glass-container {
@@ -1196,7 +1240,7 @@ const App = () => {
         .liquid-blur-1, .liquid-blur-2 {
           position: absolute;
           border-radius: 50%;
-          background: linear-gradient(135deg, #1f2937, #4b5563, #6b7280); 
+          background: linear-gradient(135deg, #1f2937, #4b5563, #6b7280);
           animation: liquid-move 20s infinite ease-in-out alternate;
           filter: blur(80px);
           opacity: 0.5;
