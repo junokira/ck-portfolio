@@ -202,7 +202,7 @@ export const experience = [
   {
     id: "onthewall-dev",
     position: "Full Stack Developer & Digital Marketing Technologist",
-    company: "On The Wall",
+    company: "OnTheWall",
     duration: "February 2021 - Present",
     description: "Worked as a full stack developer and digital marketing tech specialist at On The Wall. Built and maintained scalable websites, integrated APIs, led SEO strategy, and delivered performance-driven UX/UI design. Contributed to brand visibility and growth through data-backed front-end and back-end development, marketing automation, and analytics integration.",
     technologies: ["HTML", "CSS", "JavaScript", "React", "Node.js", "REST APIs", "SEO", "Google Analytics"],
@@ -217,7 +217,7 @@ export const experience = [
   {
     id: "pixelperfect-design",
     position: "Senior Graphic Designer",
-    company: "PixelPerfect Studios",
+    company: "Abstract Studios",
     duration: "January 2018 - January 2021",
     description: "Led a team of designers in creating visually stunning and effective marketing materials. Specialized in brand identity, UI/UX, and print design.",
     technologies: ["Adobe Creative Suite", "Figma", "Sketch", "Print Design"],
@@ -459,8 +459,8 @@ const ExpandablePhotosWidget = ({ isExpanded, toggleExpand, collapsedHeight, exp
     >
       <div className="flex justify-between items-center mb-2">
         <div>
-          <h3 className="text-white text-lg font-semibold shiny-text">Photos</h3>
-          <p className="text-white text-sm shiny-text">Library · {allPhotos.length} Photos</p>
+          <h3 className="text-white text-lg font-semibold shiny-text">Logos</h3>
+          <p className="text-white text-sm shiny-text">Library · {allPhotos.length} Logos</p>
         </div>
         <button onClick={toggleExpand} className="text-white/50 hover:text-white transition-colors duration-200">
           <motion.div
@@ -878,10 +878,6 @@ const App = () => {
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
-      if (backgroundCanvasRef.current) {
-        backgroundCanvasRef.current.width = window.innerWidth;
-        backgroundCanvasRef.current.height = window.innerHeight;
-      }
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -890,7 +886,6 @@ const App = () => {
   useEffect(() => {
     if (isMobile) return;
 
-    // This function will update the text glow effect
     const updateGlow = () => {
       const { x, y } = mousePosition.current;
       const maxGlowDistance = 200;
@@ -899,7 +894,9 @@ const App = () => {
         const rect = el.getBoundingClientRect();
         const elCenterX = rect.left + rect.width / 2;
         const elCenterY = rect.top + rect.height / 2;
-        const distance = Math.hypot(elCenterX - x, elCenterY - y);
+        
+        // Correctly calculate distance from mouse to element, accounting for scroll
+        const distance = Math.hypot(elCenterX - x, elCenterY - y + window.scrollY);
         const intensity = Math.max(0, 1 - distance / maxGlowDistance);
         el.style.textShadow = `0 0 ${1 + intensity * 3}px rgba(255, 255, 255, ${0.2 + intensity * 0.3})`;
       });
@@ -910,22 +907,18 @@ const App = () => {
       updateGlow();
     };
 
-    // The scroll handler just needs to trigger the glow update
     const handleScroll = () => {
       updateGlow();
     };
     
-    // Initial population of elements and first glow calculation
     const updateShinyElements = () => {
       shinyTextElementsRef.current = document.querySelectorAll('.shiny-text');
       updateGlow();
     };
     
-    // Listen for mouse movement and scroll events
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('scroll', handleScroll);
     
-    // Use a MutationObserver to re-run the glow logic when the DOM changes
     updateShinyElements();
     const observer = new MutationObserver(updateShinyElements);
     observer.observe(document.body, { childList: true, subtree: true });
@@ -937,6 +930,8 @@ const App = () => {
     };
   }, [isMobile]);
 
+  // FIX: This useEffect now handles the canvas resize logic to prevent the white space at the bottom.
+  // The canvas height will now continuously update in the animation loop to match the full document scroll height.
   useEffect(() => {
     const canvas = backgroundCanvasRef.current;
     if (!canvas) return;
@@ -982,15 +977,16 @@ const App = () => {
     };
 
     const draw = () => {
+      // Fix: Continuously update the canvas height in the animation loop
       canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      canvas.height = Math.max(window.innerHeight, document.documentElement.scrollHeight);
       
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = '#0a0a0a';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
       const mouseX = mousePosition.current.x;
-      const mouseY = mousePosition.current.y;
+      const mouseY = mousePosition.current.y + window.scrollY;
       
       const rows = Math.ceil(canvas.height / (gridSize * 1.5)) + 1;
       const cols = Math.ceil(canvas.width / (gridSize * 2)) + 1;
@@ -1003,8 +999,7 @@ const App = () => {
           const x = offsetX + c * (gridSize * 2) + ((r % 2) === 1 ? gridSize : 0) - gridSize;
           const y = offsetY + r * (gridSize * 1.5);
           
-          const scrollAdjustedMouseY = mouseY + window.scrollY;
-          const distance = Math.hypot(x - mouseX, y - scrollAdjustedMouseY);
+          const distance = Math.hypot(x - mouseX, y - mouseY);
           const maxDistance = Math.hypot(window.innerWidth, window.innerHeight);
           const shade = 1 - Math.min(distance / (maxDistance * 0.2), 1);
           
@@ -1015,10 +1010,19 @@ const App = () => {
       animationFrameId = requestAnimationFrame(draw);
     };
     
+    // Call the draw function immediately and on every resize
+    const handleResize = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = Math.max(window.innerHeight, document.documentElement.scrollHeight);
+        draw();
+    };
+    
+    window.addEventListener('resize', handleResize);
     draw();
 
     return () => {
       cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -1049,7 +1053,7 @@ const App = () => {
       
       <TopNav handleNavLinkClick={handleNavLinkClick} navRef={navRef} isMobile={isMobile} />
       
-      <div className="relative z-30 flex flex-col">
+      <div className="relative z-30 flex flex-col min-h-screen">
         <div className="flex-1 px-4 md:px-12 pt-28 md:pt-24 pb-12">
           <div className="max-w-4xl mx-auto space-y-12">
             
@@ -1077,7 +1081,7 @@ const App = () => {
               <h1 className="text-4xl md:text-6xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white shiny-text">
                 Calvin Korkie
               </h1>
-              <p className="text-xl md:text-2xl text-white shiny-text">Software Engineer | Product Designer</p>
+              <p className="text-xl md:text-2xl text-white shiny-text"> Designer | Software Engineer </p>
               <a href="mailto:null@v0id.live" target="_blank" rel="noopener noreferrer" className="text-sm md:text-base text-white hover:text-white/80 shiny-text mt-2 cursor-pointer">
                 null@v0id.live
               </a>
@@ -1107,7 +1111,7 @@ const App = () => {
             <section id="about" className="glass-container p-8">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white shiny-text">About Me</h2>
               <p className="text-white leading-relaxed shiny-text">
-                Hi, I'm a passionate developer with a knack for building beautiful and functional user interfaces. I love creating engaging web experiences that are both visually appealing and highly performant. My skills include React, Tailwind CSS, and a deep appreciation for modern design principles like the one you see here!
+                I'm a multidisciplinary digital creative blending beautiful design, strategic thinking, and cutting-cutting-edge Al development. I specialize in crafting visual experiences that deliver results.
               </p>
             </section>
             
@@ -1165,43 +1169,98 @@ const App = () => {
               <DynamicQuoteWidget isMobile={isMobile} />
             </section>
 
-            <section id="contact" className="glass-container p-8 text-center mt-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white shiny-text">Contact Me</h2>
-              <div className="flex justify-center space-x-6">
-                <motion.a
-                  href="https://www.behance.net/calvin-portfolio"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="contact-icon hover:text-white transition-colors duration-300 will-change-transform"
-                  whileHover={!isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
-                  whileInView={isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+            <section id="contact" className="p-8 mt-12 text-center">
+              <h2 className="text-3xl md:text-4xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white shiny-text">Contact Me</h2>
+              
+              <div className="grid md:grid-cols-2 gap-8 items-center">
+                {/* Social Icons Column */}
+                <motion.div
+                  className="glass-container p-8 flex flex-col justify-center items-center h-full will-change-transform"
+                  whileHover={!isMobile ? { scale: 1.05 } : {}}
+                  whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <Behance size={40} />
-                </motion.a>
-                <motion.a
-                  href="https://linkedin.com/in/your-username"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="contact-icon hover:text-white transition-colors duration-300 will-change-transform"
-                  whileHover={!isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
-                  whileInView={isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
+                  <p className="text-white text-lg font-semibold mb-4 shiny-text">Connect with me</p>
+                  <div className="flex justify-center space-x-6">
+                    <motion.a
+                      href="https://www.behance.net/calvin-portfolio"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="contact-icon hover:text-white transition-colors duration-300 will-change-transform"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <Behance size={40} />
+                    </motion.a>
+                    <motion.a
+                      href="https://linkedin.com/in/your-username"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="contact-icon hover:text-white transition-colors duration-300 will-change-transform"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                    </motion.a>
+                    <motion.a
+                      href="mailto:null@v0id.live"
+                      className="contact-icon hover:text-white transition-colors duration-300 will-change-transform"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
+                    </motion.a>
+                  </div>
+                </motion.div>
+                
+                {/* Contact Form Column */}
+                <motion.div
+                  className="glass-container p-8 flex flex-col will-change-transform"
+                  whileHover={!isMobile ? { scale: 1.05 } : {}}
+                  whileInView={isMobile ? { scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-                </motion.a>
-                <motion.a
-                  href="mailto:null@v0id.live"
-                  className="contact-icon hover:text-white transition-colors duration-300 will-change-transform"
-                  whileHover={!isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
-                  whileInView={isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
-                </motion.a>
+                  <form className="w-full text-left">
+                    <div className="mb-4">
+                      <label htmlFor="name" className="block text-white text-sm font-semibold mb-2 shiny-text">Name</label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        className="glass-input w-full p-3 rounded-lg border border-white/20 bg-white/10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200"
+                        placeholder="Your name"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label htmlFor="email" className="block text-white text-sm font-semibold mb-2 shiny-text">Email</label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        className="glass-input w-full p-3 rounded-lg border border-white/20 bg-white/10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200"
+                        placeholder="Your email address"
+                      />
+                    </div>
+                    <div className="mb-6">
+                      <label htmlFor="message" className="block text-white text-sm font-semibold mb-2 shiny-text">Message</label>
+                      <textarea
+                        id="message"
+                        name="message"
+                        rows="4"
+                        className="glass-input w-full p-3 rounded-lg border border-white/20 bg-white/10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200"
+                        placeholder="Your message"
+                      ></textarea>
+                    </div>
+                    <button
+                      type="submit"
+                      className="glass-button w-full px-6 py-3 rounded-full font-bold text-lg bg-white/10 text-white hover:bg-white/20 transition-all duration-300"
+                    >
+                      Send Message
+                    </button>
+                  </form>
+                </motion.div>
               </div>
             </section>
           </div>
@@ -1281,11 +1340,11 @@ const App = () => {
         }
 
         .background-canvas {
-          position: fixed;
+          position: absolute;
           top: 0;
           left: 0;
           width: 100%;
-          height: 100%;
+          /* Fix: The canvas height is now handled dynamically in the JS */
         }
       `}</style>
     </div>
