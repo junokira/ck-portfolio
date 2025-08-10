@@ -301,8 +301,8 @@ const TopNav = ({ handleNavLinkClick, navRef, isMobile }) => {
 
   return (
     <div ref={navRef} className="fixed top-0 left-0 right-0 z-40 p-4 flex justify-center">
-      <div className="glass-container flex flex-row gap-2 md:gap-6 px-4 py-2 items-center w-full md:w-auto">
-        <div className="flex-1 flex gap-2 md:gap-6 items-center">
+      <div className="glass-container flex flex-row gap-4 md:gap-6 px-4 py-2 items-center w-full md:w-auto">
+        <div className="flex-1 flex gap-4 md:gap-6 items-center">
           {navItems.map((item) => (
             <div
               key={item.id}
@@ -1137,6 +1137,44 @@ const App = () => {
 
             <section id="contact" className="glass-container p-8 text-center mt-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white">Get In Touch</h2>
+              <form className="space-y-4 mb-8">
+                <div className="relative">
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    className="w-full px-4 py-3 bg-white/10 text-white rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200 placeholder-white/50"
+                    placeholder="Your Name"
+                    required
+                  />
+                </div>
+                <div className="relative">
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    className="w-full px-4 py-3 bg-white/10 text-white rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200 placeholder-white/50"
+                    placeholder="Your Email"
+                    required
+                  />
+                </div>
+                <div className="relative">
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows="4"
+                    className="w-full px-4 py-3 bg-white/10 text-white rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200 placeholder-white/50 resize-none"
+                    placeholder="Your Message"
+                    required
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  className="glass-button w-full px-4 py-3 rounded-xl font-semibold bg-white/10 text-white hover:bg-white/20"
+                >
+                  Send Message
+                </button>
+              </form>
               <div className="flex justify-center space-x-6">
                 <motion.a
                   href="https://www.behance.net/calvin-portfolio"
