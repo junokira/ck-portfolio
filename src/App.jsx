@@ -1079,7 +1079,6 @@ const App = () => {
               <p className="text-white leading-relaxed">
                 I'm a multidisciplinary digital creative blending beautiful design, strategic thinking, and cutting-cutting-edge AI development. I specialize in crafting visual experiences that deliver results.
               </p>
-              </p>
             </section>
             
             <section id="projects">
