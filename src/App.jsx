@@ -80,7 +80,7 @@ export const projects = [
     subtitle: "Activewear brand",
     description: "Enhanced user experience across digital platforms for an innovative activewear brand.",
     fullDescription: "For Kopoai, an innovative activewear brand, I focused on enhancing the user experience across their digital platforms. This included optimizing the e-commerce website and mobile app for seamless navigation, intuitive product discovery, and a streamlined checkout process, ensuring a premium user journey that reflects the brand's quality.",
-    imageUrl: "https://i.ibb.co/Gf3P2mfD/kopoai-logo.png",
+    imageUrl: "https://i.ibb.co/nqWwwQd0/kopoai-grey.png",
     backgroundColor: "#f0ece0",
     technologies: ["Figma", "User Research", "Wireframing", "Prototyping", "E-commerce Platforms"],
     links: [
