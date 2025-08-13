@@ -1,11 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { PenTool, LayoutGrid, Globe, Code, ChevronRight, ChevronDown, X, Menu, Link, Search, FileText, BarChart2, Monitor, Users, Briefcase } from "lucide-react";
-
-// =========================================================
-// All data has been moved here to keep components clean.
-// =========================================================
-
 export const navItems = [
   { id: "home", label: "Home", icon: <PenTool /> },
   { id: "about", label: "About", icon: <Code /> },
@@ -26,7 +21,7 @@ export const projects = [
     backgroundColor: "#da4a44",
     technologies: ["Creative Direction", "AI Integration", "Interactive Design", "Event Production"],
     links: [
-      { name: "Live Site", url: "awakencult.com" },
+      { name: "Live Site", url: "https://awakencult.com" },
       { name: "Press Kit", url: "https://www.example.com/awaken-press" },
     ],
     fontFamily: "'Anton', sans-serif",
@@ -123,7 +118,7 @@ export const projects = [
     backgroundColor: "#0033cc",
     technologies: ["Figma", "Shopify", "HTML", "CSS", "JavaScript"],
     links: [
-      { name: "Live Site", url: "onthewall.site" },
+      { name: "Live Site", url: "https://onthewall.site" },
       { name: "UX Case Study", url: "https://www.example.com/onthewall-ux-case-study" },
     ],
     fontFamily: "'Anton', sans-serif",
@@ -751,7 +746,7 @@ const DynamicQuoteWidget = ({ isMobile }) => {
       <button 
         onClick={fetchQuote} 
         disabled={isLoading}
-        className={`glass-button px-4 py-2 mt-auto rounded-full font-semibold ${isLoading ? 'bg-white/10 text-white cursor-not-allowed' : 'bg-white/10 text-white hover:bg-white/20'}`}
+        className="glass-button w-full px-4 py-3 mt-auto rounded-xl font-semibold bg-white/10 text-white hover:bg-white/20"
       >
         {isLoading ? 'Generating...' : 'New Quote'}
       </button>
@@ -811,6 +806,65 @@ const SkillAndSEOSection = ({ isMobile }) => {
   );
 };
 
+function upsertMeta(name, content) {
+  if (!content) return;
+  let el = document.head.querySelector(`meta[name="${name}"]`);
+  if (!el) {
+    el = document.createElement("meta");
+    el.setAttribute("name", name);
+    document.head.appendChild(el);
+  }
+  el.setAttribute("content", content);
+}
+
+function upsertMetaProp(prop, content) {
+  if (!content) return;
+  let el = document.head.querySelector(`meta[property="${prop}"]`);
+  if (!el) {
+    el = document.createElement("meta");
+    el.setAttribute("property", prop);
+    document.head.appendChild(el);
+  }
+  el.setAttribute("content", content);
+}
+
+function upsertLink(rel, attrs = {}) {
+  let sel = `link[rel="${rel}"]`;
+  if (attrs.sizes) sel += `[sizes="${attrs.sizes}"]`;
+  let el = document.head.querySelector(sel);
+  if (!el) {
+    el = document.createElement("link");
+    el.setAttribute("rel", rel);
+    document.head.appendChild(el);
+  }
+  Object.entries(attrs).forEach(([k, v]) => v && el.setAttribute(k, v));
+}
+
+function upsertScript(id, type, json) {
+  let el = document.head.querySelector(`#${id}`);
+  if (!el) {
+    el = document.createElement("script");
+    el.id = id;
+    el.type = type;
+    document.head.appendChild(el);
+  }
+  el.textContent = JSON.stringify(json);
+}
+
+const SITE = {
+  name: "Calvin Korkie — Designer & Software Engineer",
+  url: "https://calvinck.com/",
+  description: "Portfolio of Calvin Korkie — multidisciplinary designer and software engineer in Cape Town. Projects in branding, UI/UX, AI, and web development.",
+  locale: "en_ZA",
+  themeColor: "#0a0a0a",
+  icons: {
+    "32": "https://i.ibb.co/WvXVyy49/ck-logo.webp",
+    "16": "https://i.ibb.co/WvXVyy49/ck-logo.webp",
+    apple: "https://i.ibb.co/WvXVyy49/ck-logo.webp",
+    mask: "/icons/safari-pinned-tab.svg"
+  },
+  ogImage: "https://calvinck.com/og-image.jpg"
+};
 
 // =========================================================
 // This is the main application file.
@@ -992,6 +1046,60 @@ const App = () => {
       cancelAnimationFrame(animationFrameId);
     };
   }, [isMobile]);
+
+  // Added new useEffect hook to handle SEO and metadata.
+  useEffect(() => {
+    document.title = SITE.name;
+    upsertMeta("description", SITE.description);
+    upsertLink("canonical", { href: SITE.url });
+    upsertMeta("viewport", "width=device-width, initial-scale=1");
+    upsertMeta("theme-color", SITE.themeColor);
+
+    upsertLink("icon", { type: "image/webp", sizes: "32x32", href: SITE.icons["32"] });
+    upsertLink("icon", { type: "image/webp", sizes: "16x16", href: SITE.icons["16"] });
+    upsertLink("apple-touch-icon", { sizes: "180x180", href: SITE.icons.apple });
+    upsertLink("mask-icon", { href: SITE.icons.mask, color: SITE.themeColor });
+
+    upsertMetaProp("og:type", "website");
+    upsertMetaProp("og:site_name", "Calvin Korkie");
+    upsertMetaProp("og:title", SITE.name);
+    upsertMetaProp("og:description", SITE.description);
+    upsertMetaProp("og:url", SITE.url);
+    upsertMetaProp("og:image", SITE.ogImage);
+    upsertMetaProp("og:locale", SITE.locale);
+
+    upsertMeta("twitter:card", "summary_large_image");
+    upsertMeta("twitter:title", SITE.name);
+    upsertMeta("twitter:description", SITE.description);
+    upsertMeta("twitter:image", SITE.ogImage);
+
+    upsertScript("ld-person", "application/ld+json", {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name: "Calvin Korkie",
+      jobTitle: "Designer & Software Engineer",
+      email: "mailto:info@calvinck.com",
+      image: SITE.ogImage,
+      url: SITE.url,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Cape Town",
+        addressCountry: "ZA"
+      }
+    });
+
+    upsertScript("ld-website", "application/ld+json", {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "Calvin Korkie — Portfolio",
+      url: SITE.url,
+      potentialAction: {
+        "@type": "SearchAction",
+        target: `${SITE.url}?q={search_term_string}`,
+        "query-input": "required name=search_term_string"
+      }
+    });
+  }, []);
 
   const allCategories = ["All", ...new Set(projects.map(p => p.category))];
   const filteredProjects = activeFilter === "All" ? projects : projects.filter(p => p.category === activeFilter);
@@ -1188,7 +1296,7 @@ const App = () => {
                   <Behance size={40} />
                 </motion.a>
                 <motion.a
-                  href="https://linkedin.com/in/your-username"
+                  href="http://www.linkedin.com/in/calvin-korkie"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="contact-icon hover:text-white transition-colors duration-300 will-change-transform"
@@ -1199,7 +1307,7 @@ const App = () => {
                   <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
                 </motion.a>
                 <motion.a
-                  href="mailto:null@v0id.live"
+                  href="mailto:info@calvinck.com"
                   className="contact-icon hover:text-white transition-colors duration-300 will-change-transform"
                   whileHover={!isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
                   viewport={{ once: true, amount: 0.2 }}
