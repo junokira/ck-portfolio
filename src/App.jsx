@@ -26,7 +26,7 @@ export const projects = [
     backgroundColor: "#da4a44",
     technologies: ["Creative Direction", "AI Integration", "Interactive Design", "Event Production"],
     links: [
-      { name: "Video Demo", url: "https://www.youtube.com/watch?v=exampleAWAKEN" },
+      { name: "Live Site", url: "awakencult.com" },
       { name: "Press Kit", url: "https://www.example.com/awaken-press" },
     ],
     fontFamily: "'Anton', sans-serif",
@@ -80,7 +80,7 @@ export const projects = [
     subtitle: "Activewear brand",
     description: "Enhanced user experience across digital platforms for an innovative activewear brand.",
     fullDescription: "For Kopoai, an innovative activewear brand, I focused on enhancing the user experience across their digital platforms. This included optimizing the e-commerce website and mobile app for seamless navigation, intuitive product discovery, and a streamlined checkout process, ensuring a premium user journey that reflects the brand's quality.",
-    imageUrl: "https://i.ibb.co/nqWwwQd0/kopoai-grey.png",
+    imageUrl: "https://i.ibb.co/Gf3P2mfD/kopoai-logo.png",
     backgroundColor: "#f0ece0",
     technologies: ["Figma", "User Research", "Wireframing", "Prototyping", "E-commerce Platforms"],
     links: [
@@ -123,7 +123,7 @@ export const projects = [
     backgroundColor: "#0033cc",
     technologies: ["Figma", "Shopify", "HTML", "CSS", "JavaScript"],
     links: [
-      { name: "Live Site", url: "https://www.example.com/onthewall" },
+      { name: "Live Site", url: "onthewall.site" },
       { name: "UX Case Study", url: "https://www.example.com/onthewall-ux-case-study" },
     ],
     fontFamily: "'Anton', sans-serif",
@@ -450,7 +450,7 @@ const ExpandablePhotosWidget = ({ isExpanded, toggleExpand, collapsedHeight, exp
     "https://i.ibb.co/PGFQkrJM/think.png",
     "https://i.ibb.co/9mgwLzSG/clouds-1.png",
     "https://i.ibb.co/MxTwCzyd/handddd.png",
-    "https://i.ibb.ibb.co/nqWwwQd0/kopoai-grey.png",
+    "https://i.ibb.co/nqWwwQd0/kopoai-grey.png",
     "https://placehold.co/150x150/FFFF00/000000?text=Logo+7",
     "https://placehold.co/150x150/800080/FFFFFF?text=Logo+8",
     "https://placehold.co/150x150/FFA500/000000?text=Logo+9",
