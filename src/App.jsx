@@ -1048,8 +1048,8 @@ const App = () => {
                 Calvin Korkie
               </h1>
               <p className="text-xl md:text-2xl text-white">Designer | Software Engineer</p>
-              <a href="mailto:null@v0id.live" target="_blank" rel="noopener noreferrer" className="text-sm md:text-base text-white hover:text-white/80 mt-2 cursor-pointer">
-                null@v0id.live
+              <a href="info@calvinck.com" target="_blank" rel="noopener noreferrer" className="text-sm md:text-base text-white hover:text-white/80 mt-2 cursor-pointer">
+                info@calvinck.com
               </a>
               <p className="text-sm md:text-base text-white mt-2">Cape Town, South Africa</p>
             </header>
