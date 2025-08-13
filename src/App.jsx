@@ -447,7 +447,7 @@ const ExpandablePhotosWidget = ({ isExpanded, toggleExpand, collapsedHeight, exp
     "https://i.ibb.co/MxTwCzyd/handddd.png",
     "https://i.ibb.co/nqWwwQd0/kopoai-grey.png",
     "https://placehold.co/150x150/FFFF00/000000?text=Logo+7",
-    "https://placehold.co/150x150/800080/FFFFFF?text=Logo+8",
+    "https://i.ibb.co/dwJv0X47/HORIZEN-LOGO.webp",
     "https://placehold.co/150x150/FFA500/000000?text=Logo+9",
     "https://placehold.co/150x150/00FFFF/000000?text=Logo+10",
     "https://placehold.co/150x150/FF00FF/000000?text=Logo+11",
@@ -1078,7 +1078,7 @@ const App = () => {
       "@type": "Person",
       name: "Calvin Korkie",
       jobTitle: "Designer & Software Engineer",
-      email: "mailto:info@calvinck.com",
+      email: "mailto:calvink@onthewall.site",
       image: SITE.ogImage,
       url: SITE.url,
       address: {
@@ -1156,8 +1156,8 @@ const App = () => {
                 Calvin Korkie
               </h1>
               <p className="text-xl md:text-2xl text-white">Designer | Software Engineer</p>
-              <a href="info@calvinck.com" target="_blank" rel="noopener noreferrer" className="text-sm md:text-base text-white hover:text-white/80 mt-2 cursor-pointer">
-                info@calvinck.com
+              <a href="calvink@onthewall.site" target="_blank" rel="noopener noreferrer" className="text-sm md:text-base text-white hover:text-white/80 mt-2 cursor-pointer">
+                calvink@onthewall.site
               </a>
               <p className="text-sm md:text-base text-white mt-2">Cape Town, South Africa</p>
             </header>
@@ -1185,7 +1185,7 @@ const App = () => {
             <section id="about" className="glass-container p-8">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white">About Me</h2>
               <p className="text-white leading-relaxed">
-                I'm a multidisciplinary digital creative blending beautiful design, strategic thinking, and cutting-cutting-edge AI development. I specialize in crafting visual experiences that deliver results.
+                I'm a multidisciplinary digital creative blending beautiful design, strategic thinking, and cutting-edge AI development. I specialize in crafting visual experiences that deliver results.
               </p>
             </section>
             
@@ -1307,7 +1307,7 @@ const App = () => {
                   <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
                 </motion.a>
                 <motion.a
-                  href="mailto:info@calvinck.com"
+                  href="mailto:calvink@onthewall.site"
                   className="contact-icon hover:text-white transition-colors duration-300 will-change-transform"
                   whileHover={!isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
                   viewport={{ once: true, amount: 0.2 }}
