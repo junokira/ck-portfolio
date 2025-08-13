@@ -1077,7 +1077,8 @@ const App = () => {
             <section id="about" className="glass-container p-8">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white">About Me</h2>
               <p className="text-white leading-relaxed">
-                Hi, I'm a passionate developer with a knack for building beautiful and functional user interfaces. I love creating engaging web experiences that are both visually appealing and highly performant. My skills include React, Tailwind CSS, and a deep appreciation for modern design principles like the one you see here!
+                I'm a multidisciplinary digital creative blending beautiful design, strategic thinking, and cutting-cutting-edge AI development. I specialize in crafting visual experiences that deliver results.
+              </p>
               </p>
             </section>
             
