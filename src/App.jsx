@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { PenTool, LayoutGrid, Globe, Code, ChevronRight, ChevronDown, X, Menu, Link, Search, FileText, BarChart2, Monitor, Users, Briefcase } from "lucide-react";
+import { PenTool, LayoutGrid, Globe, Code, ChevronRight, ChevronDown, X, Menu, Link, Search, FileText, BarChart2, Monitor, Users, Briefcase, Mail, Linkedin } from "lucide-react";
 export const navItems = [
   { id: "home", label: "Home", icon: <PenTool /> },
   { id: "about", label: "About", icon: <Code /> },
@@ -102,7 +102,7 @@ export const projects = [
       { name: "Play Store", url: "https://play.google.com/store/apps/details?id=exampleHorizon" },
     ],
     isLogo: false,
-    textSizeClass: "text-4xl md:text-5xl",
+    textSizeClass: "text-3xl md:text-4xl",
     logoSizeClass: null,
     fontFamily: "'Orbitron', sans-serif",
     colors: [ "#d97925" , "#ffffff", "#1a1b2c"],
@@ -246,20 +246,6 @@ export const skillsData = [
   { name: "Three.js", iconUrl: "https://cdn.jsdelivr.net/npm/simple-icons@5.15.0/icons/threedotjs.svg", description: "Experience with 3D graphics and interactive web experiences." },
   { name: "Google Cloud", iconUrl: "https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg", description: "Familiar with cloud services for deployment and data management." },
 ];
-
-// Custom Behance icon with corrected SVG path
-const Behance = ({ size = 24, className }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    className={className}
-  >
-    <path d="M13.67 10.36c.64.44.82 1.03.82 1.76a2.83 2.83 0 0 1-1.3 2.45c-1.37.82-3.4.94-5.32.94H4.5V8.1h3.7c1.9 0 3.8.1 5.3.96zm-5.46 4.3h3.5c1.47 0 2.5-.2 3.12-1.07.64-.87.97-2.3.97-4.14v-.27c0-2.3-.57-3.88-1.72-4.6-1.12-.66-2.9-.84-5.1-.84H4.5v12.9h2.36v-4.52zM21.53 9.4c0-2.58-1-4.7-3.57-4.7s-3.56 2.12-3.56 4.7v.14c0 2.58 1 4.7 3.56 4.7s3.57-2.12 3.57-4.7V9.4zM18.1 12.8c-1.04 0-1.25-1.1-1.25-1.52v-.22c0-.42.2-1.52 1.25-1.52s1.24 1.1 1.24 1.52v.22c.01.42-.2 1.52-1.24 1.52z" />
-  </svg>
-);
 
 // =========================================================
 // All components are now defined in this single file.
@@ -796,7 +782,7 @@ const SkillAndSEOSection = ({ isMobile }) => {
 
       <section id="skills-list" className="space-y-6 mt-12">
         <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white text-center">Skills</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-3 md:grid-cols-3 gap-4">
           {skillsData.map((skill, index) => (
             <SkillCard key={index} skill={skill} isMobile={isMobile} />
           ))}
@@ -1245,7 +1231,7 @@ const App = () => {
 
             <section id="contact" className="glass-container p-8 text-center mt-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white">Get In Touch</h2>
-              <form className="space-y-4 mb-8">
+              <form className="space-y-4 mb-8" action="https://formspree.io/f/mqkvvgzp" method="POST">
                 <div className="relative">
                   <input
                     type="text"
@@ -1284,37 +1270,28 @@ const App = () => {
                 </button>
               </form>
               <div className="flex justify-center space-x-6">
-                <motion.a
+                <a
                   href="https://www.behance.net/calvin-portfolio"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="contact-icon hover:text-white transition-colors duration-300 will-change-transform"
-                  whileHover={!isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.2 }}
+                  className="contact-icon text-white/50 hover:text-white transition-colors duration-300"
                 >
-                  <Behance size={40} />
-                </motion.a>
-                <motion.a
+                  <LayoutGrid size={40} />
+                </a>
+                <a
                   href="http://www.linkedin.com/in/calvin-korkie"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="contact-icon hover:text-white transition-colors duration-300 will-change-transform"
-                  whileHover={!isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.2 }}
+                  className="contact-icon text-white/50 hover:text-white transition-colors duration-300"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-                </motion.a>
-                <motion.a
+                  <Linkedin size={40} />
+                </a>
+                <a
                   href="mailto:calvink@onthewall.site"
-                  className="contact-icon hover:text-white transition-colors duration-300 will-change-transform"
-                  whileHover={!isMobile ? { scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" } : {}}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.2 }}
+                  className="contact-icon text-white/50 hover:text-white transition-colors duration-300"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
-                </motion.a>
+                  <Mail size={40} />
+                </a>
               </div>
             </section>
           </div>
