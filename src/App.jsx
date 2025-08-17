@@ -28,7 +28,7 @@ export const projects = [
     isLogo: false,
     textSizeClass: "text-4xl md:text-5xl",
     logoSizeClass: null,
-    colors: ["#da4a44", "#fef9c3"],
+    colors: ["#da4a44", "#f2f0e8"],
   },
   {
     id: "kwality-klarity",
@@ -65,8 +65,8 @@ export const projects = [
     ],
     isLogo: true,
     textSizeClass: null,
-    logoSizeClass: "max-h-full",
-    colors: ["#bdc0a7", "#ffffff" , "#1f2937" , "#fefe00"],
+    logoSizeClass: "max-h-[10rem]",
+    colors: ["#bdc0a7", "#ffffff" , "#fefe00" , "#1f2937"],
   },
   {
     id: "kopoai",
@@ -176,8 +176,8 @@ export const experience = [
     duration: "June 2023 - August 2025",
     description: "Led brand design and full stack web development for Clouds, delivering e-commerce platforms, SEO strategies, and integrated email marketing systems. Built and launched scalable online stores with modern UX/UI, developed product design assets, and created content and ads to support digital campaigns. Helped grow online presence through cohesive branding, performance-optimized code, and targeted marketing assets.",
     technologies: ["Shopify", "React", "HTML/CSS", "JavaScript", "Figma", "Adobe Illustrator", "SEO"],
-    backgroundColor: "#3b82f6",
-    icon: <Briefcase className="w-12 h-12 text-white" />,
+    backgroundColor: "#0682D2",
+    imageUrl: "https://i.ibb.co/m5j5tpNB/clouds-yellow.png",
   },
   {
     id: "kwality-klarity-dev",
@@ -186,38 +186,28 @@ export const experience = [
     duration: "October 2024 - May 2025",
     description: "Led full-stack website development for Kwality & Klarity including UX/UI design, API integration, branding strategy, custom blog & newsletter solutions. Delivered responsive, scalable, and user-centric digital products with a focus on performance and design cohesion.",
     technologies: ["React", "Node.js", "Express.js", "MongoDB", "Figma", "API Integration"],
-    backgroundColor: "#7c3aed",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="16 18 22 12 16 6" />
-        <polyline points="8 6 2 12 8 18" />
-      </svg>
-    ),
+    backgroundColor: "#000000",
+    imageUrl: "https://i.ibb.co/Jj74RR2Z/IMG-9717.png",
   },
   {
     id: "onthewall-dev",
     position: "Full Stack Developer & Digital Marketing Technologist",
-    company: "On The Wall",
+    company: "OnTheWall",
     duration: "February 2021 - Present",
     description: "Worked as a full stack developer and digital marketing tech specialist at On The Wall. Built and maintained scalable websites, integrated APIs, led SEO strategy, and delivered performance-driven UX/UI design. Contributed to brand visibility and growth through data-backed front-end and back-end development, marketing automation, and analytics integration.",
     technologies: ["HTML", "CSS", "JavaScript", "React", "Node.js", "REST APIs", "SEO", "Google Analytics"],
-    backgroundColor: "#dc2626",
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
-        <rect x="8" y="2" width="8" height="2" rx="1" ry="1" />
-      </svg>
-    ),
+    backgroundColor: "#ffffff",
+    imageUrl: "https://i.ibb.co/DDNShDkV/onthewall-circle.png",
   },
   {
     id: "pixelperfect-design",
     position: "Senior Graphic Designer",
-    company: "PixelPerfect Studios",
+    company: "Abstract Studios",
     duration: "January 2018 - January 2021",
     description: "Led a team of designers in creating visually stunning and effective marketing materials. Specialized in brand identity, UI/UX, and print design.",
     technologies: ["Adobe Creative Suite", "Figma", "Sketch", "Print Design"],
-    backgroundColor: "#16a34a",
-    icon: <PenTool className="w-12 h-12 text-white" />,
+    backgroundColor: "#9eb4c2",
+    imageUrl: "https://i.ibb.co/FgsHvFX/os.png",
   },
 ];
 
@@ -395,9 +385,7 @@ const ExperienceCard = ({ item, isMobile }) => (
     <div className="flex items-center justify-between mb-4">
       <div className="flex items-center space-x-4">
         <div className="w-16 h-16 rounded-full flex items-center justify-center p-2 shadow-lg" style={{ backgroundColor: item.backgroundColor }}>
-          <div className="text-white">
-            {item.icon}
-          </div>
+          <img src={item.imageUrl} alt={`${item.company} logo`} className="w-full h-full object-contain" />
         </div>
         <div>
           <h3 className="text-xl font-bold">{item.position}</h3>
@@ -429,7 +417,7 @@ const ExpandablePhotosWidget = ({ isExpanded, toggleExpand, collapsedHeight, exp
     "https://i.ibb.co/CK0tHVsB/awaken-eye-red.png",
     "https://i.ibb.co/p7297MR/vo0id-logo.png",
     "https://i.ibb.co/PGFQkrJM/think.png",
-    "https://i.ibb.co/9mgwLzSG/clouds-1.png",
+    "https://i.ibb.co/Gwwmc3w/clouds-classic.webp",
     "https://i.ibb.co/MxTwCzyd/handddd.png",
     "https://i.ibb.co/nqWwwQd0/kopoai-grey.png",
     "https://placehold.co/150x150/FFFF00/000000?text=Logo+7",
@@ -782,7 +770,7 @@ const SkillAndSEOSection = ({ isMobile }) => {
 
       <section id="skills-list" className="space-y-6 mt-12">
         <h2 className="text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white text-center">Skills</h2>
-        <div className="grid grid-cols-3 md:grid-cols-3 gap-4">
+        <div className={`grid gap-4 ${isMobile ? "grid-cols-2" : "grid-cols-3"}`}>
           {skillsData.map((skill, index) => (
             <SkillCard key={index} skill={skill} isMobile={isMobile} />
           ))}
@@ -1171,7 +1159,7 @@ const App = () => {
             <section id="about" className="glass-container p-8">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white">About Me</h2>
               <p className="text-white leading-relaxed">
-                I'm a multidisciplinary digital creative blending beautiful design, strategic thinking, and cutting-edge AI development. I specialize in crafting visual experiences that deliver results.
+                I'm a multidisciplinary creative blending design, strategic thinking, and cutting-edge AI development. I specialize in crafting visual experiences that deliver results.
               </p>
             </section>
             
@@ -1231,7 +1219,7 @@ const App = () => {
 
             <section id="contact" className="glass-container p-8 text-center mt-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-white">Get In Touch</h2>
-              <form className="space-y-4 mb-8" action="https://formspree.io/f/mqkvvgzp" method="POST">
+              <form className="space-y-4 mb-8" action="https://formspree.io/f/xrbljwzg" method="POST">
                 <div className="relative">
                   <input
                     type="text"
@@ -1259,7 +1247,6 @@ const App = () => {
                     rows="4"
                     className="w-full px-4 py-3 bg-white/10 text-white rounded-xl border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all duration-200 placeholder-white/50 resize-none"
                     placeholder="Your Message"
-                    required
                   ></textarea>
                 </div>
                 <button
@@ -1279,18 +1266,18 @@ const App = () => {
                   <LayoutGrid size={40} />
                 </a>
                 <a
+                  href="mailto:calvink@onthewall.site"
+                  className="contact-icon text-white/50 hover:text-white transition-colors duration-300"
+                >
+                  <Mail size={40} />
+                </a>
+                <a
                   href="http://www.linkedin.com/in/calvin-korkie"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="contact-icon text-white/50 hover:text-white transition-colors duration-300"
                 >
                   <Linkedin size={40} />
-                </a>
-                <a
-                  href="mailto:calvink@onthewall.site"
-                  className="contact-icon text-white/50 hover:text-white transition-colors duration-300"
-                >
-                  <Mail size={40} />
                 </a>
               </div>
             </section>
@@ -1371,6 +1358,10 @@ const App = () => {
           left: 0;
           width: 100%;
           height: 100%;
+        }
+
+        .contact-icon {
+          transition: transform 0.2s ease-in-out;
         }
       `}</style>
     </div>
